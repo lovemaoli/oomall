@@ -1,0 +1,2 @@
+#nginx
+docker service create --name nginx --constraint node.labels.server==nginx --mount type=bind,source=/root/OOMALL/conf/nginx/conf.d,destination=/etc/nginx/conf.d  --mount type=bind,source=/root/OOMALL/conf/nginx/pass,destination=/etc/nginx/pass --mount type=bind,source=/root/nginx/log,destination=/var/log/nginx --mount type=bind,source=/root/test,destination=/test --publish published=80,target=80 -d nginx:latest

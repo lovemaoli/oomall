@@ -1,0 +1,2 @@
+docker service create --name test --constraint node.labels.server==nginx  --mount type=bind,source=/root/test,destination=/test --mount type=bind,source=/root/OOMALL,destination=/OOMALL --mount type=bind,source=/root/public-test,destination=/public-test --network my-net -d test:v1.0  bash -c "while true; do sleep 1; done"
+docker exec -i $(docker container ls -aq -f name=test.*) bash /OOMALL/runtest.sh
