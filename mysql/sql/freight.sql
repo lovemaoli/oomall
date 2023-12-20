@@ -44,6 +44,9 @@ CREATE TABLE `freight_express` (
   `receiv_mobile` varchar(64) DEFAULT NULL,
   `goods_type` varchar(32) DEFAULT NULL,
   `weight` bigint DEFAULT NULL,
+  `order_code` varchar(128) DEFAULT NULL,
+  `start_time` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='运单';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -54,6 +57,10 @@ CREATE TABLE `freight_express` (
 
 LOCK TABLES `freight_express` WRITE;
 /*!40000 ALTER TABLE `freight_express` DISABLE KEYS */;
+INSERT INTO freight.freight_express (id, bill_code, shop_logistics_id, send_region_id, send_address, receiv_region_id, receiv_address, send_name, send_mobile, receiv_name, status, shop_id, creator_id, creator_name, modifier_id, modifier_name, gmt_create, gmt_modified, receiv_mobile) VALUES (7, '202312141', 1, 21, '钟鼓社区居委会', 499, '金台里社区居委会', '李华', '123456', '张三', 0, 1, 1, 'admin', null, null, '2023-12-14 00:03:53', null, '123');
+INSERT INTO freight.freight_express (id, bill_code, shop_logistics_id, send_region_id, send_address, receiv_region_id, receiv_address, send_name, send_mobile, receiv_name, status, shop_id, creator_id, creator_name, modifier_id, modifier_name, gmt_create, gmt_modified, receiv_mobile) VALUES (8, '202312142', 1, 21, '钟鼓社区居委会', 499, '金台里社区居委会', '李华', '123456', '张三', 1, 1, 1, 'admin', null, null, '2023-12-14 00:03:53', null, '123');
+INSERT INTO freight.freight_express (id, bill_code, shop_logistics_id, send_region_id, send_address, receiv_region_id, receiv_address, send_name, send_mobile, receiv_name, status, shop_id, creator_id, creator_name, modifier_id, modifier_name, gmt_create, gmt_modified, receiv_mobile) VALUES (9, '202312143', 1, 21, '钟鼓社区居委会', 499, '金台里社区居委会', '李华', '123456', '张三', 2, 1, 1, 'admin', null, null, '2023-12-14 00:03:53', null, '123');
+INSERT INTO freight.freight_express (id, bill_code, shop_logistics_id, send_region_id, send_address, receiv_region_id, receiv_address, send_name, send_mobile, receiv_name, status, shop_id, creator_id, creator_name, modifier_id, modifier_name, gmt_create, gmt_modified, receiv_mobile) VALUES (25, '202312144', 1, 21, '钟鼓社区居委会', 499, '金台里社区居委会', '李华', '123456', '张三', 5, 1, 1, 'admin', null, null, '2023-12-14 00:03:53', null, '123');
 /*!40000 ALTER TABLE `freight_express` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,4 +279,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-15 20:26:47
+-- Dump completed on 2023-12-16  7:02:22

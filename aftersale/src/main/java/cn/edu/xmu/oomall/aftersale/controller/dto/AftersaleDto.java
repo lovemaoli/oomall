@@ -1,27 +1,19 @@
-package cn.edu.xmu.oomall.aftersale.mapper.po;
+package cn.edu.xmu.oomall.aftersale.controller.dto;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
+import cn.edu.xmu.javaee.core.model.dto.IdNameTypeDto;
+import cn.edu.xmu.javaee.core.validation.NewGroup;
 import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotBlank;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import jakarta.persistence.*;
-
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "aftersale_aftersale")
-@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
-@ToString
 @CopyFrom({Aftersale.class})
-public class AftersalePo implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class AftersaleDto {
+
     private Integer type;
     private String reason;
     private String conclusion;
@@ -30,27 +22,18 @@ public class AftersalePo implements Serializable {
     private String mobile;
     private String address;
     private Integer status;
-    private LocalDateTime gmtApply;
-    private LocalDateTime gmtEnd;
     private Long order_item_id;
     private Long product_item_id;
     private Long shop_id;
     private Long arbitration_id;
     private Long customer_id;
     private Long refund_trans_id;
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -108,22 +91,6 @@ public class AftersalePo implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public LocalDateTime getGmtApply() {
-        return gmtApply;
-    }
-
-    public void setGmtApply(LocalDateTime gmtApply) {
-        this.gmtApply = gmtApply;
-    }
-
-    public LocalDateTime getGmtEnd() {
-        return gmtEnd;
-    }
-
-    public void setGmtEnd(LocalDateTime gmtEnd) {
-        this.gmtEnd = gmtEnd;
     }
 
     public Long getOrder_item_id() {

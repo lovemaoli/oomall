@@ -46,6 +46,7 @@
         <module>freight</module>
         <module>sfexpress</module>
         <module>jtexpress</module>
+        <module>aftersale</module>
     </modules>
 
     <dependencyManagement>

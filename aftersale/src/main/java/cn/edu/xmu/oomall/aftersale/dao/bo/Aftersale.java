@@ -25,57 +25,74 @@ import java.util.stream.Stream;
 @ToString(callSuper = true, doNotUseGetters = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @CopyFrom({AftersalePo.class, AftersaleVo.class})
-public class Aftersale {
+public class Aftersale implements Serializable {
     @ToString.Exclude
     @JsonIgnore
     private static final Logger logger = LoggerFactory.getLogger(Aftersale.class);
+    @ToString.Exclude
+    @JsonIgnore
+    public static final Integer NEW = 100;
+    @ToString.Exclude
+    @JsonIgnore
+    public static final Integer PENDING = 200;
+    @ToString.Exclude
+    @JsonIgnore
+    public static final Integer REFUND = 301;
+    @ToString.Exclude
+    @JsonIgnore
+    public static final Integer EXCHANGE = 302;
+    @ToString.Exclude
+    @JsonIgnore
+    public static final Integer FIX = 303;
+    @ToString.Exclude
+    @JsonIgnore
+    public static final Integer EXCHANGEING = 304;
+    @ToString.Exclude
+    @JsonIgnore
+    public static final Integer CANCLE = 400;
+    @ToString.Exclude
+    @JsonIgnore
+    public static final Integer FINISH = 500;
+    public static Map<Integer, String> statusMap = Stream.of(new Object[][] {
+            {NEW, "新订单"},
+            {PENDING, "待处理"},
+            {REFUND, "退款"},
+            {EXCHANGE, "换货"},
+            {FIX, "维修"},
+            {EXCHANGEING, "换货中"},
+            {CANCLE, "已取消"},
+            {FINISH, "已完成"},
+    }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (String) data[1]));
 
-    public enum Status {
-        NEW(100, "新售后单"),
-        PENDING(200, "待售后"),
-        REFUND(301, "待退款"),
-        EXCHANGE(302, "待换货"),
-        FIX(303, "待维修"),
-        EXCHANGEING(304, "换货中"),
-        CANCLE(400, "已取消"),
-        FINISH(500, "已完成");
+    /**
+     * 允许的状态迁移
+     */
+    public static Map<Integer, List<Integer>> statusTransferMap = Stream.of(new Object[][] {
+            {NEW, Arrays.asList(PENDING, CANCLE)},
+            {PENDING, Arrays.asList(REFUND, EXCHANGE, FIX, CANCLE)},
+            {REFUND, Arrays.asList(FINISH)},
+            {EXCHANGE, Arrays.asList(EXCHANGEING, FINISH)},
+            {FIX, Arrays.asList(FINISH)},
+            {EXCHANGEING, Arrays.asList(FINISH)},
+            {CANCLE, Arrays.asList(FINISH)},
+            {FINISH, Arrays.asList()},
+    }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (List<Integer>) data[1]));
 
-        private static final Map<Integer, Status> stateMap;
-
-        static {
-            stateMap = new HashMap<>();
-            for (Status state : values()) {
-                stateMap.put(state.code, state);
-            }
-        }
-
-        private final Integer code;
-        private final String description;
-
-        Status(Integer code, String description) {
-            this.code = code;
-            this.description = description;
-        }
-
-        public static Status getTypeByCode(Integer code) {
-            return stateMap.get(code);
-        }
-
-        public Integer getCode() {
-            return code;
-        }
-
-        public String getDescription() {
-            return description;
-        }
+    public boolean canTransfer(Integer status) {
+        return statusTransferMap.get(this.status).contains(status);
     }
-    private Status status;
+
+    @JsonIgnore
+    public String getStatusName() {
+        return statusMap.get(this.status);
+    }
 
     private Long id;
-    private int type;
+    private Integer type;
+    private Integer status;
     private String reason;
     private String conclusion;
-    private int quantity;
+    private Integer quantity;
     private String contact;
     private String mobile;
     private String address;
@@ -88,13 +105,16 @@ public class Aftersale {
     private Long customer_id;
     private Long refund_trans_id;
 
+    @Setter
+    @JsonIgnore
+    @ToString.Exclude
     private AftersaleDao aftersaleDao;
 
-    public Status getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

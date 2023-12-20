@@ -113,6 +113,7 @@
     </dependencies>
 
     <build>
+        <outputDirectory>${project.build.directory}/classes</outputDirectory>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
