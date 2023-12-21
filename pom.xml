@@ -47,6 +47,7 @@
         <module>sfexpress</module>
         <module>jtexpress</module>
         <module>aftersale</module>
+        <module>service</module>
     </modules>
 
     <dependencyManagement>

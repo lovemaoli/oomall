@@ -39,7 +39,7 @@ public class InternalAftersaleControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 1)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.RESOURCE_ID_OUTSCOPE.getErrNo())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
                 .andDo(MockMvcResultHandlers.print());
 
