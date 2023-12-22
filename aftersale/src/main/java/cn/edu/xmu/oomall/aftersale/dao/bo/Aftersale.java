@@ -46,10 +46,10 @@ public class Aftersale implements Serializable {
     public static final Integer FIX = 303;
     @ToString.Exclude
     @JsonIgnore
-    public static final Integer EXCHANGEING = 304;
+    public static final Integer EXCHANGING = 304;
     @ToString.Exclude
     @JsonIgnore
-    public static final Integer CANCLE = 400;
+    public static final Integer CANCEL = 400;
     @ToString.Exclude
     @JsonIgnore
     public static final Integer FINISH = 500;
@@ -59,8 +59,8 @@ public class Aftersale implements Serializable {
             {REFUND, "退款"},
             {EXCHANGE, "换货"},
             {FIX, "维修"},
-            {EXCHANGEING, "换货中"},
-            {CANCLE, "已取消"},
+            {EXCHANGING, "换货中"},
+            {CANCEL, "已取消"},
             {FINISH, "已完成"},
     }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (String) data[1]));
 
@@ -68,13 +68,13 @@ public class Aftersale implements Serializable {
      * 允许的状态迁移
      */
     public static Map<Integer, List<Integer>> statusTransferMap = Stream.of(new Object[][] {
-            {NEW, Arrays.asList(PENDING, CANCLE)},
-            {PENDING, Arrays.asList(REFUND, EXCHANGE, FIX, CANCLE)},
+            {NEW, Arrays.asList(PENDING, CANCEL)},
+            {PENDING, Arrays.asList(REFUND, EXCHANGE, FIX, CANCEL)},
             {REFUND, Arrays.asList(FINISH)},
-            {EXCHANGE, Arrays.asList(EXCHANGEING, FINISH)},
+            {EXCHANGE, Arrays.asList(EXCHANGING, FINISH)},
             {FIX, Arrays.asList(FINISH)},
-            {EXCHANGEING, Arrays.asList(FINISH)},
-            {CANCLE, Arrays.asList(FINISH)},
+            {EXCHANGING, Arrays.asList(FINISH)},
+            {CANCEL, Arrays.asList(FINISH)},
             {FINISH, Arrays.asList()},
     }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (List<Integer>) data[1]));
 
