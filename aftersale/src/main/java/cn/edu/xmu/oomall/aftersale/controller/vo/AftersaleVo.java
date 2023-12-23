@@ -19,7 +19,7 @@ public class AftersaleVo {
     private Integer type;
     @NotBlank(message = "售后申请理由不能为空", groups = {NewGroup.class})
     private String reason;
-    @NotBlank(message = "售后申请凭证不能为空", groups = {NewGroup.class})
+    @NotBlank(message = "售后申请结论不能为空", groups = {NewGroup.class})
     private String conclusion;
     @NotBlank(message = "申请数量不能为空", groups = {NewGroup.class})
     private Integer quantity;
