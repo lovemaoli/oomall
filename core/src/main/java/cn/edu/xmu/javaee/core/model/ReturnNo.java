@@ -110,11 +110,15 @@ public enum ReturnNo {
     /**************************************
      *  售后模块
      ************************************/
-    ARBITRATION_NOTSELF(701, "仲裁(id=%d)非本用户受理的仲裁"),
+    ARBITRATION_NOTSELF(701, "仲裁(id=%d)与该用户无关"),
     ARBITRATION_NOT_APPLICANT(702, "仲裁(id=%d)仅申请人可以撤销"),
-    AFTERSALE_NOT_RETURNCHANGE(703, "(id=%d)不是退换货售后"),
-    AFTERSALE_NOT_SELFSENDBACK(704, "(id=%d)不是自行寄回售后"),
-    AFTERSALE_INARBITRATION(705, "售后(id=%d)在仲裁中"),
+    ARBITRATION_STATE_NOTALLOW(703, "仲裁(id=%d)状态不正确"),
+    AFTERSALE_NOT_RETURNCHANGE(704, "(id=%d)不是退换货售后"),
+    AFTERSALE_NOT_SELFSENDBACK(705, "(id=%d)不是自行寄回售后"),
+    AFTERSALE_INARBITRATION(706, "售后(id=%d)在仲裁中"),
+    AFTERSALE_NOTSELF(707, "售后(id=%d)与该用户无关"),
+    AFTERSALE_STATENOTALLOW(708, "售后(id=%d)状态不正确"),
+
 
     /**************************************
      *  服务模块

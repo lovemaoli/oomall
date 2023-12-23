@@ -5,8 +5,11 @@ import cn.edu.xmu.javaee.core.exception.BusinessException;
 import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.model.bo.OOMallObject;
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
+import cn.edu.xmu.oomall.aftersale.controller.dto.ArbitrationDto;
 import cn.edu.xmu.oomall.aftersale.controller.vo.AftersaleVo;
 import cn.edu.xmu.oomall.aftersale.dao.AftersaleDao;
+import cn.edu.xmu.oomall.aftersale.dao.ArbitrationDao;
+import cn.edu.xmu.oomall.aftersale.dao.bo.arbitration.Arbitration;
 import cn.edu.xmu.oomall.aftersale.mapper.po.AftersalePo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -110,12 +113,48 @@ public class Aftersale implements Serializable {
     @ToString.Exclude
     private AftersaleDao aftersaleDao;
 
+    @Setter
+    @JsonIgnore
+    @ToString.Exclude
+    private ArbitrationDao arbitrationDao;
+
+    public boolean allowApplyArbitration(UserDto user) {
+        return this.status == Aftersale.PENDING && this.customer_id == user.getId();
+    }
+
+    /**
+     * 顾客提交仲裁
+     * @param reason
+     * @param user
+     * @return
+     */
+    public ArbitrationDto createArbitration(String reason, UserDto user) {
+        if (!allowApplyArbitration(user)) {
+            logger.error(String.format("售后单%d不允许申请仲裁", this.id));
+            throw new BusinessException(ReturnNo.ARBITRATION_STATE_NOTALLOW);
+        }
+        Arbitration arbitration = new Arbitration();
+        arbitration.setId(this.id+100000000);
+        arbitration.setAftersale_id(this.id);
+        arbitration.setCustomer_id(this.customer_id);
+        arbitration.setShop_id(this.shop_id);
+        arbitration.setReason(reason);
+        arbitration.setStatus(Arbitration.NEW);
+        arbitration.setGmt_apply(LocalDateTime.now());
+        arbitrationDao.insert(arbitration);
+        return arbitration.createDto();
+    }
+
     public Integer getStatus() {
         return status;
     }
 
     public void setStatus(Integer status) {
-        this.status = status;
+        if (canTransfer(status))
+            this.status = status;
+        else
+            logger.error(String.format("状态不允许从%d迁移到%d", this.status, status));
+            throw new BusinessException(ReturnNo.STATENOTALLOW);
     }
 
     public Long getId() {

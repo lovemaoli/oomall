@@ -19,4 +19,5 @@ public class CommonPointCuts {
     @Pointcut("@annotation(cn.edu.xmu.javaee.core.aop.Audit)")
     public void auditAnnotation() {
     }
+
 }

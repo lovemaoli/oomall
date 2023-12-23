@@ -53,6 +53,11 @@ public class AftersaleDao {
         return bo;
     }
 
+    public Aftersale update(Aftersale bo) {
+        AftersalePo po = CloneFactory.copy(new AftersalePo(), bo);
+        aftersalePoMapper.save(po);
+        return bo;
+    }
 
     /**
      * 通过id获取售后单

@@ -5,6 +5,7 @@ import cn.edu.xmu.javaee.core.model.dto.IdNameTypeDto;
 import cn.edu.xmu.javaee.core.validation.NewGroup;
 import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.NotBlank;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @CopyFrom({Aftersale.class})
 public class AftersaleDto {
 
+    private Long id;
     private Integer type;
     private String reason;
     private String conclusion;
@@ -29,6 +31,13 @@ public class AftersaleDto {
     private Long customer_id;
     private Long refund_trans_id;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public Integer getType() {
         return type;
     }

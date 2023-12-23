@@ -1,73 +1,19 @@
-package cn.edu.xmu.oomall.aftersale.dao.bo.arbitraion;
+package cn.edu.xmu.oomall.aftersale.controller.dto;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
-import cn.edu.xmu.javaee.core.exception.BusinessException;
-import cn.edu.xmu.javaee.core.model.ReturnNo;
-import cn.edu.xmu.javaee.core.model.bo.OOMallObject;
-import cn.edu.xmu.javaee.core.model.dto.UserDto;
-import cn.edu.xmu.oomall.aftersale.controller.vo.ArbitrationVo;
-import cn.edu.xmu.oomall.aftersale.dao.AftersaleDao;
-import cn.edu.xmu.oomall.aftersale.mapper.po.ArbitrationPo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import cn.edu.xmu.javaee.core.model.dto.IdNameTypeDto;
+import cn.edu.xmu.javaee.core.validation.NewGroup;
+import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
+import cn.edu.xmu.oomall.aftersale.dao.bo.arbitration.Arbitration;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.Serializable;
+import jakarta.validation.constraints.NotBlank;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString(callSuper = true, doNotUseGetters = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@CopyFrom({ArbitrationPo.class, ArbitrationVo.class})
-public class Arbitration implements Serializable {
-    @ToString.Exclude
-    @JsonIgnore
-    private static final Logger logger = LoggerFactory.getLogger(Arbitration.class);
-    @ToString.Exclude
-    @JsonIgnore
-    public static final Integer NEW = 0;
-    @ToString.Exclude
-    @JsonIgnore
-    public static final Integer RESPOND = 1;
-    @ToString.Exclude
-    @JsonIgnore
-    public static final Integer ARBING = 2;
-    @ToString.Exclude
-    @JsonIgnore
-    public static final Integer SUCCESS = 3;
-    @ToString.Exclude
-    @JsonIgnore
-    public static final Integer CANCEL = 4;
-    public static Map<Integer, String> statusMap = Stream.of(new Object[][] {
-            {NEW, "新订单"},
-            {RESPOND, "待商家处理"},
-            {ARBING, "仲裁中"},
-            {SUCCESS, "仲裁成功"},
-            {CANCEL, "仲裁失败"},
-    }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (String) data[1]));
-
-    public static Map<Integer, List<Integer>> statusTransferMap = Stream.of(new Object[][] {
-            {NEW, Arrays.asList(RESPOND, CANCEL)},
-            {RESPOND, Arrays.asList(ARBING, CANCEL)},
-            {ARBING, Arrays.asList(SUCCESS, CANCEL)},
-            {SUCCESS, List.of()},
-            {CANCEL, List.of()},
-    }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (List<Integer>) data[1]));
-
-    public boolean canTransferTo(Integer status) {
-        return statusTransferMap.get(this.status).contains(status);
-    }
-
-    public String getStateName() {
-        return statusMap.get(this.status);
-    }
-
+@NoArgsConstructor
+@CopyFrom({Arbitration.class})
+public class ArbitrationDto {
     private Long id;
     private Integer status;
     private String reason;
