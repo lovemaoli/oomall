@@ -59,7 +59,11 @@ public class ServiceProviderService {
     }
 
     public ReturnNo changeServiceProviderStatus(Long id, Integer state) {
-        return this.serviceProviderDao.changeServiceProviderStatus(id, state);
+        ServiceProvider serviceProvider = this.serviceProviderDao.findById(id);
+        if (serviceProvider == null) {
+            return ReturnNo.RESOURCE_ID_NOTEXIST;
+        }
+        return serviceProvider.changeStatus(state);
     }
 
     public ServiceProviderDto findServiceProviderById(Long id) {

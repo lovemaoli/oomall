@@ -1,6 +1,10 @@
 package cn.edu.xmu.oomall.service.controller;
 
+import cn.edu.xmu.javaee.core.aop.Audit;
+import cn.edu.xmu.javaee.core.aop.LoginUser;
+import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.model.ReturnObject;
+import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.javaee.core.util.CloneFactory;
 import cn.edu.xmu.oomall.service.dao.bo.ServiceProvider;
 import cn.edu.xmu.oomall.service.service.ServiceProviderService;
@@ -27,5 +31,26 @@ public class ServiceProviderController {
         ServiceProvider serviceProvider = this.serviceProviderService.findById(id);
         //ServiceProviderDto dto = CloneFactory.copy(new ServiceProviderDto(), serviceProvider);
         return new ReturnObject(serviceProvider);
+    }
+
+    @GetMapping("/adminusers/{aid}/maintainers/{mid}/cancel")
+    @Audit(departName = "shops")
+    public ReturnObject cancelServiceProvider(@PathVariable Long aid, @PathVariable Long mid, @LoginUser UserDto userDto) {
+        ReturnNo errno = this.serviceProviderService.changeServiceProviderStatus(mid, ServiceProvider.FAILED);
+        return new ReturnObject(errno);
+    }
+
+    @GetMapping("/adminusers/{aid}/maintainers/{mid}/resume")
+    @Audit(departName = "shops")
+    public ReturnObject resumeServiceProvider(@PathVariable Long aid, @PathVariable Long mid, @LoginUser UserDto userDto) {
+        ReturnNo errno = this.serviceProviderService.changeServiceProviderStatus(mid, ServiceProvider.VALID);
+        return new ReturnObject(errno);
+    }
+
+    @GetMapping("/adminusers/{aid}/maintainers/{mid}/suspend")
+    @Audit(departName = "shops")
+    public ReturnObject suspendServiceProvider(@PathVariable Long aid, @PathVariable Long mid, @LoginUser UserDto userDto) {
+        ReturnNo errno = this.serviceProviderService.changeServiceProviderStatus(mid, ServiceProvider.SUSPEND);
+        return new ReturnObject(errno);
     }
 }

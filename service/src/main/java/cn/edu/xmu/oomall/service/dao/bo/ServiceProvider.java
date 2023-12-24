@@ -63,6 +63,7 @@ public class ServiceProvider implements Serializable{
         return statusTransferMap.get(this.status).contains(status);
     }
 
+
     @JsonIgnore
     public String getStatusName() {
         return statusMap.get(this.status);
@@ -145,6 +146,15 @@ public class ServiceProvider implements Serializable{
             this.status = status;
         } else {
             throw new BusinessException(ReturnNo.SERVICE_STATE_NOTALLOW);
+        }
+    }
+
+    public ReturnNo changeStatus(Integer status) {
+        if (canTransfer(status)) {
+            this.status = status;
+            return ReturnNo.OK;
+        } else {
+            return ReturnNo.SERVICE_STATE_NOTALLOW;
         }
     }
 
