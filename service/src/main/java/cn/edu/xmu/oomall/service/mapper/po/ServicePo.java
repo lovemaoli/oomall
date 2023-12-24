@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 @ToString
 @CopyFrom({Service.class})
 public class ServicePo {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
