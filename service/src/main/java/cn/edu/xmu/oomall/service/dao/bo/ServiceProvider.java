@@ -4,6 +4,8 @@ import cn.edu.xmu.javaee.core.aop.CopyFrom;
 import cn.edu.xmu.javaee.core.exception.BusinessException;
 import cn.edu.xmu.javaee.core.model.ReturnNo;
 
+import cn.edu.xmu.oomall.service.dao.ServiceProviderDao;
+import cn.edu.xmu.oomall.service.mapper.po.ServiceProviderPo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -76,6 +78,7 @@ public class ServiceProvider implements Serializable{
     private Integer deposit_threshold;
     private Integer status;
 
+    private ServiceProviderDao serviceProviderDao;
 
     public Long getId() {
         return id;
@@ -143,6 +146,14 @@ public class ServiceProvider implements Serializable{
         } else {
             throw new BusinessException(ReturnNo.SERVICE_STATE_NOTALLOW);
         }
+    }
+
+    public ServiceProviderDao getServiceProviderDao() {
+        return serviceProviderDao;
+    }
+
+    public void setServiceProviderDao(ServiceProviderDao serviceProviderDao) {
+        this.serviceProviderDao = serviceProviderDao;
     }
 }
 

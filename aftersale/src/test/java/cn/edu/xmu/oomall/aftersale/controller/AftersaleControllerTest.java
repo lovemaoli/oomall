@@ -3,6 +3,7 @@ package cn.edu.xmu.oomall.aftersale.controller;
 import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.mapper.RedisUtil;
 import cn.edu.xmu.oomall.aftersale.AftersaleApplication;
+import cn.edu.xmu.oomall.aftersale.dao.ArbitrationDao;
 import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -24,7 +25,7 @@ import static org.hamcrest.CoreMatchers.is;
 @SpringBootTest(classes = AftersaleApplication.class)
 @AutoConfigureMockMvc
 @Transactional(propagation = Propagation.REQUIRED)
-public class InternalAftersaleControllerTest {
+public class AftersaleControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -44,6 +45,31 @@ public class InternalAftersaleControllerTest {
                 .andDo(MockMvcResultHandlers.print());
 
 
+    }
+
+    @Test
+    void findAftersaleByIdReturnsAftersaleWhenExists() throws Exception {
+        Aftersale aftersale = new Aftersale();
+        aftersale.setId(1L);
+        ArbitrationDao aftersaleService = Mockito.mock(ArbitrationDao.class);
+        Mockito.when(aftersaleService.findById(1L)).thenReturn(aftersale);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 1L)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.id", is(1)))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    void findAftersaleByIdReturnsNotFoundWhenDoesNotExist() throws Exception {
+        ArbitrationDao aftersaleService = Mockito.mock(ArbitrationDao.class);
+        Mockito.when(aftersaleService.findById(1L)).thenReturn(null);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 1L)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andDo(MockMvcResultHandlers.print());
     }
 
 }
