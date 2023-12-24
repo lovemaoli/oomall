@@ -152,6 +152,7 @@ public class ServiceProvider implements Serializable{
     public ReturnNo changeStatus(Integer status) {
         if (canTransfer(status)) {
             this.status = status;
+            // loop...
             return ReturnNo.OK;
         } else {
             return ReturnNo.SERVICE_STATE_NOTALLOW;
