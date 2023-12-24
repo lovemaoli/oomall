@@ -4,6 +4,8 @@ import cn.edu.xmu.javaee.core.aop.CopyFrom;
 import cn.edu.xmu.javaee.core.exception.BusinessException;
 import cn.edu.xmu.javaee.core.model.ReturnNo;
 
+import cn.edu.xmu.javaee.core.model.dto.UserDto;
+import cn.edu.xmu.oomall.service.dao.DraftServiceDao;
 import cn.edu.xmu.oomall.service.dao.ServiceProviderDao;
 import cn.edu.xmu.oomall.service.mapper.po.ServiceProviderPo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -80,6 +82,8 @@ public class ServiceProvider implements Serializable{
     private Integer status;
 
     private ServiceProviderDao serviceProviderDao;
+
+    private DraftServiceDao draftServiceDao;
 
     public Long getId() {
         return id;
@@ -166,6 +170,24 @@ public class ServiceProvider implements Serializable{
     public void setServiceProviderDao(ServiceProviderDao serviceProviderDao) {
         this.serviceProviderDao = serviceProviderDao;
     }
+
+    public DraftServiceDao getDraftServiceDao() {
+        return draftServiceDao;
+    }
+
+    public void setDraftServiceDao(DraftServiceDao draftServiceDao) {
+        this.draftServiceDao = draftServiceDao;
+    }
+
+    public DraftService createDraftService(DraftService bo, UserDto user) {
+        if(this.status != ServiceProvider.VALID) {
+            logger.debug("createDraftService: 服务商状态不是有效");
+            return null;
+        }
+        bo = draftServiceDao.createDraftService(bo);
+        return bo;
+    }
+
 }
 
 

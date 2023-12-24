@@ -1,7 +1,6 @@
 package cn.edu.xmu.oomall.service.mapper.po;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
-import cn.edu.xmu.oomall.region.dao.bo.Region;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -10,11 +9,10 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "service_region")
+@Table(name = "region_region")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@CopyFrom({Region.class})
 public class RegionPo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
