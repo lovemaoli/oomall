@@ -145,7 +145,7 @@ public class ServiceProvider implements Serializable{
         if (canTransfer(status)) {
             this.status = status;
         } else {
-            throw new BusinessException(ReturnNo.SERVICE_STATE_NOTALLOW);
+            throw new BusinessException(ReturnNo.SERVICE_PROVIDER_STATE_NOTALLOW);
         }
     }
 
@@ -155,7 +155,7 @@ public class ServiceProvider implements Serializable{
             // loop...
             return ReturnNo.OK;
         } else {
-            return ReturnNo.SERVICE_STATE_NOTALLOW;
+            return ReturnNo.SERVICE_PROVIDER_STATE_NOTALLOW;
         }
     }
 
