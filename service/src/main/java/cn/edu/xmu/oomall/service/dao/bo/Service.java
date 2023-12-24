@@ -61,7 +61,7 @@ public class Service implements Serializable{
     }
 
     public String getName() {
-        return name;
+        return name;    //服务名称
     }
 
     public void setName(String name) {
