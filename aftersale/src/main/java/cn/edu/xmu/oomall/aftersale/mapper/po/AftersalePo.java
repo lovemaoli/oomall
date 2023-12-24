@@ -30,8 +30,8 @@ public class AftersalePo implements Serializable {
     private String mobile;
     private String address;
     private Integer status;
-    private LocalDateTime gmtApply;
-    private LocalDateTime gmtEnd;
+    private LocalDateTime gmt_apply;
+    private LocalDateTime gmt_end;
     private Long order_item_id;
     private Long product_item_id;
     private Long shop_id;
