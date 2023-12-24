@@ -6,6 +6,7 @@ import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.model.ReturnObject;
 import cn.edu.xmu.javaee.core.model.dto.StatusDto;
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
+import cn.edu.xmu.javaee.core.util.CloneFactory;
 import cn.edu.xmu.oomall.service.controller.vo.DraftServiceVo;
 import cn.edu.xmu.oomall.service.dao.DraftServiceDao;
 import cn.edu.xmu.oomall.service.dao.RegionDao;
@@ -43,8 +44,15 @@ public class DraftServiceService {
         this.regionDao = regionDao;
     }
 
-
-    private ReturnObject defServiceForProductInRegion(Long mid, Long rid, DraftServiceVo vo, UserDto user) {
+    /**
+     * 服务商定义在某个地区为某种商品的服务
+     * @param mid
+     * @param rid
+     * @param vo
+     * @param user
+     * @return
+     */
+    public ReturnObject defServiceForProductInRegion(Long mid, Long rid, DraftServiceVo vo, UserDto user) {
         ServiceProvider serviceProvider = this.serviceProviderDao.findById(mid);
         if (serviceProvider == null) {
             return new ReturnObject(ReturnNo.RESOURCE_ID_NOTEXIST);
@@ -53,9 +61,8 @@ public class DraftServiceService {
         if (regionPo == null) {
             return new ReturnObject(ReturnNo.RESOURCE_ID_NOTEXIST);
         }
-        DraftService bo = CopyFrom.copy(vo, DraftService.class);
-        bo.setId();
-        bo.setStatus(DraftService.APPLY);
+        DraftService bo = CloneFactory.copy(new DraftService(), vo);
+        bo.setStatus(0);
         bo.setService_provider_id(mid);
         bo.setRegion_id(rid);
         bo.setService_id(null);

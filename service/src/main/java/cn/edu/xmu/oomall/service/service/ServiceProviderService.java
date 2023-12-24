@@ -5,8 +5,10 @@ import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.model.dto.StatusDto;
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.javaee.core.mapper.RedisUtil;
+import cn.edu.xmu.javaee.core.util.CloneFactory;
 import cn.edu.xmu.oomall.service.controller.dto.ServiceProviderDto;
 import cn.edu.xmu.oomall.service.dao.ServiceProviderDao;
+import cn.edu.xmu.oomall.service.dao.bo.ServiceProviderStatus;
 import cn.edu.xmu.oomall.service.dao.ServiceProviderDao;
 import cn.edu.xmu.oomall.service.dao.bo.ServiceProvider;
 import org.slf4j.Logger;
@@ -40,19 +42,19 @@ public class ServiceProviderService {
 
 
 
-    public ServiceProviderDto createServiceProvider(ServiceProviderDto serviceProviderDto) {
-        ServiceProvider serviceProvider = CloneFactory.copy(new ServiceProvider(), serviceProviderDto);
-        serviceProvider = this.serviceProviderDao.createServiceProvider(serviceProvider);
-        serviceProviderDto = CloneFactory.copy(new ServiceProviderDto(), serviceProvider);
-        return serviceProviderDto;
-    }
-
-    public ServiceProviderDto updateServiceProvider(ServiceProviderDto serviceProviderDto) {
-        ServiceProvider serviceProvider = CloneFactory.copy(new ServiceProvider(), serviceProviderDto);
-        serviceProvider = this.serviceProviderDao.updateServiceProvider(serviceProvider);
-        serviceProviderDto = CloneFactory.copy(new ServiceProviderDto(), serviceProvider);
-        return serviceProviderDto;
-    }
+//    public ServiceProviderDto createServiceProvider(ServiceProviderDto serviceProviderDto) {
+//        ServiceProvider serviceProvider = CloneFactory.copy(new ServiceProvider(), serviceProviderDto);
+//        serviceProvider = this.serviceProviderDao.createServiceProvider(serviceProvider);
+//        serviceProviderDto = CloneFactory.copy(new ServiceProviderDto(), serviceProvider);
+//        return serviceProviderDto;
+//    }
+//
+//    public ServiceProviderDto updateServiceProvider(ServiceProviderDto serviceProviderDto) {
+//        ServiceProvider serviceProvider = CloneFactory.copy(new ServiceProvider(), serviceProviderDto);
+//        serviceProvider = this.serviceProviderDao.updateServiceProvider(serviceProvider);
+//        serviceProviderDto = CloneFactory.copy(new ServiceProviderDto(), serviceProvider);
+//        return serviceProviderDto;
+//    }
 
     public ReturnNo deleteServiceProvider(Long id) {
         return this.serviceProviderDao.deleteServiceProvider(id);
@@ -63,7 +65,7 @@ public class ServiceProviderService {
         if (serviceProvider == null) {
             return ReturnNo.RESOURCE_ID_NOTEXIST;
         }
-        return serviceProvider.changeStatus(state);
+        return serviceProvider.changeStatus(ServiceProviderStatus.fromValue(state));
     }
 
     public ServiceProviderDto findServiceProviderById(Long id) {

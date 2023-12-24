@@ -1,7 +1,8 @@
 package cn.edu.xmu.oomall.service.mapper.po;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
-import cn.edu.xmu.oomall.aftersale.dao.bo.Service;
+import cn.edu.xmu.oomall.service.dao.bo.Service;
+import cn.edu.xmu.oomall.service.dao.bo.ShopService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@CopyFrom({Service.class})
+@CopyFrom({ShopService.class})
 public class ShopServicePo {
 
     @Id

@@ -9,12 +9,11 @@ import cn.edu.xmu.oomall.service.mapper.po.ShopServicePo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import org.apache.rocketmq.common.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.print.DocFlavor;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,7 +22,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @ToString(callSuper = true, doNotUseGetters = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-//@CopyFrom({ShopServicePo.class, ShopServiceVo.class})
+@CopyFrom({ShopServicePo.class})
 public class ShopService implements Serializable{
     @ToString.Exclude
     @JsonIgnore
@@ -65,6 +64,14 @@ public class ShopService implements Serializable{
             {PLATCANCEL, List.of()},
     }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (List<Integer>) data[1]));
 
+    public static Map<Pair<Integer, ServiceProviderStatus>, Integer> providerStatusTransferMap = Stream.of(new Object[][] {
+            {new Pair<>(VALID, ServiceProviderStatus.SUSPEND), PLATSUSPENDVALID},
+            {new Pair<>(PLATSUSPENDVALID, ServiceProviderStatus.VALID), VALID},
+            {new Pair<>(SHOPSUSPEND, ServiceProviderStatus.SUSPEND), PLATSUSPENDSUSPEND},
+            {new Pair<>(PLATSUSPENDSUSPEND, ServiceProviderStatus.VALID), SHOPSUSPEND},
+            {new Pair<>(PLATSUSPENDVALID, ServiceProviderStatus.BANNED), PLATCANCEL},
+            {new Pair<>(PLATSUSPENDSUSPEND, ServiceProviderStatus.BANNED), PLATCANCEL}
+    }).collect(Collectors.toMap(data -> (Pair<Integer, ServiceProviderStatus>) data[0], data -> (Integer) data[1]));
     public boolean canTransfer(Integer status) {
         return statusTransferMap.get(this.status).contains(status);
     }
@@ -92,6 +99,8 @@ public class ShopService implements Serializable{
     private Long product_id;
     private Long product_item_id;
 
+    @JsonIgnore
+    @ToString.Exclude
     private ShopServiceDao shopServiceDao;
 
     public Long getId() {
@@ -231,6 +240,17 @@ public class ShopService implements Serializable{
             this.status = status;
         } else {
           throw new BusinessException(ReturnNo.SHOP_SERVICE_STATE_NOTALLOW);
+        }
+    }
+
+    public void setStatus(ServiceProviderStatus status) {
+        Pair<Integer, ServiceProviderStatus> pair = new Pair<>(this.status, status);
+        if (providerStatusTransferMap.containsKey(pair)) {
+            this.status = providerStatusTransferMap.get(pair);
+            shopServiceDao.save(this);
+            logger.debug("ShopService: " + this.id + " status changed to " + this.status);
+        }else{
+            logger.debug("ShopService: " + this.id + " status not changed");
         }
     }
 

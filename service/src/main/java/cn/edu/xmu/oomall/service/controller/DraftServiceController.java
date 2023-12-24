@@ -26,6 +26,14 @@ public class DraftServiceController {
         this.draftServiceService = draftServiceService;
     }
 
+    /**
+     * 服务商定义在某个地区为某种商品提供的服务
+     * @param mid
+     * @param rid
+     * @param vo
+     * @param user
+     * @return
+     */
     @GetMapping("/maintainers/{mid}/region/{rid}/service")
     @Audit
     public ReturnObject findDraftServiceById(@PathVariable Long mid, @PathVariable Long rid, @RequestBody DraftServiceVo vo, @LoginUser UserDto user) {

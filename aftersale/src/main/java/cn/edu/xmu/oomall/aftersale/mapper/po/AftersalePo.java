@@ -111,19 +111,19 @@ public class AftersalePo implements Serializable {
     }
 
     public LocalDateTime getGmtApply() {
-        return gmtApply;
+        return gmt_apply;
     }
 
     public void setGmtApply(LocalDateTime gmtApply) {
-        this.gmtApply = gmtApply;
+        this.gmt_apply = gmtApply;
     }
 
     public LocalDateTime getGmtEnd() {
-        return gmtEnd;
+        return gmt_end;
     }
 
     public void setGmtEnd(LocalDateTime gmtEnd) {
-        this.gmtEnd = gmtEnd;
+        this.gmt_end = gmtEnd;
     }
 
     public Long getOrder_item_id() {

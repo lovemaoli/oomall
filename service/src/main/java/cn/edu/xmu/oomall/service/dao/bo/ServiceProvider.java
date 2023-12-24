@@ -6,7 +6,9 @@ import cn.edu.xmu.javaee.core.model.ReturnNo;
 
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.oomall.service.dao.DraftServiceDao;
+import cn.edu.xmu.oomall.service.dao.ServiceDao;
 import cn.edu.xmu.oomall.service.dao.ServiceProviderDao;
+import cn.edu.xmu.oomall.service.dao.ShopServiceDao;
 import cn.edu.xmu.oomall.service.mapper.po.ServiceProviderPo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -24,7 +26,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @ToString(callSuper = true, doNotUseGetters = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-//@CopyFrom({AftersalePo.class, AftersaleVo.class})
+@CopyFrom({ServiceProviderPo.class})
 public class ServiceProvider implements Serializable{
     @ToString.Exclude
     @JsonIgnore
@@ -81,9 +83,21 @@ public class ServiceProvider implements Serializable{
     private Integer deposit_threshold;
     private Integer status;
 
+    @JsonIgnore
+    @ToString.Exclude
     private ServiceProviderDao serviceProviderDao;
 
+    @JsonIgnore
+    @ToString.Exclude
     private DraftServiceDao draftServiceDao;
+
+    @JsonIgnore
+    @ToString.Exclude
+    private ShopServiceDao shopServiceDao;
+
+    @JsonIgnore
+    @ToString.Exclude
+    private ServiceDao serviceDao;
 
     public Long getId() {
         return id;
@@ -146,17 +160,24 @@ public class ServiceProvider implements Serializable{
     }
 
     public void setStatus(Integer status) {
-        if (canTransfer(status)) {
-            this.status = status;
-        } else {
-            throw new BusinessException(ReturnNo.SERVICE_PROVIDER_STATE_NOTALLOW);
-        }
+        this.status = status;
     }
 
-    public ReturnNo changeStatus(Integer status) {
-        if (canTransfer(status)) {
-            this.status = status;
-            // loop...
+    public ReturnNo changeStatus(ServiceProviderStatus status) {
+        if (canTransfer(status.getValue())) {
+            this.status = status.getValue();
+            List<ShopService> shopServices = shopServiceDao.findByServiceProviderId(this.id);
+            for (ShopService shopService : shopServices) {
+                shopService.setStatus(status);
+            }
+            List<Service> services = serviceDao.findByServiceProviderId(this.id);
+            for (Service service : services) {
+                if(status == ServiceProviderStatus.APPLY) {
+                    service.setStatus(Service.VALID);
+                }else{
+                    service.setStatus(Service.INVALID);
+                }
+            }
             return ReturnNo.OK;
         } else {
             return ReturnNo.SERVICE_PROVIDER_STATE_NOTALLOW;
@@ -177,6 +198,22 @@ public class ServiceProvider implements Serializable{
 
     public void setDraftServiceDao(DraftServiceDao draftServiceDao) {
         this.draftServiceDao = draftServiceDao;
+    }
+
+    public ShopServiceDao getShopServiceDao() {
+        return shopServiceDao;
+    }
+
+    public void setShopServiceDao(ShopServiceDao shopServiceDao) {
+        this.shopServiceDao = shopServiceDao;
+    }
+
+    public ServiceDao getServiceDao() {
+        return serviceDao;
+    }
+
+    public void setServiceDao(ServiceDao serviceDao) {
+        this.serviceDao = serviceDao;
     }
 
     public DraftService createDraftService(DraftService bo, UserDto user) {

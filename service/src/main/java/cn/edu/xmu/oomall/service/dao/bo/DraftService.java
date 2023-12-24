@@ -4,6 +4,7 @@ import cn.edu.xmu.javaee.core.aop.CopyFrom;
 import cn.edu.xmu.javaee.core.exception.BusinessException;
 import cn.edu.xmu.javaee.core.model.ReturnNo;
 
+import cn.edu.xmu.oomall.service.controller.vo.DraftServiceVo;
 import cn.edu.xmu.oomall.service.dao.DraftServiceDao;
 import cn.edu.xmu.oomall.service.mapper.po.DraftServicePo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,12 +23,13 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @ToString(callSuper = true, doNotUseGetters = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@CopyFrom({DraftServicePo.class, DraftServiceVo.class})
 public class DraftService implements Serializable{
     private Long id;
     private String name;
     private String description;
-    private Integer type;
-    private Integer status;
+    private Integer type; // 0:售后 1:售前
+    private Integer status; // 0:未审核 1:未通过
     private Long service_provider_id;
     private Long service_id;
     private String category_name;

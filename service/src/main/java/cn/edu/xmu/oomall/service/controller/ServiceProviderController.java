@@ -6,6 +6,7 @@ import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.model.ReturnObject;
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.javaee.core.util.CloneFactory;
+import cn.edu.xmu.oomall.service.controller.dto.ServiceProviderDto;
 import cn.edu.xmu.oomall.service.dao.bo.ServiceProvider;
 import cn.edu.xmu.oomall.service.service.ServiceProviderService;
 //import cn.edu.xmu.oomall.service.controller.dto.ServiceProviderDto
@@ -26,20 +27,40 @@ public class ServiceProviderController {
         this.serviceProviderService = serviceProviderService;
     }
 
-    @GetMapping("/serviceproviders/{id}")
-    public ReturnObject findServiceProviderById(@PathVariable Long id) {
+    /**
+     * 服务商查看账户信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/maintainers/{id}")
+    @Audit
+    public ReturnObject findServiceProviderById(@PathVariable Long id, @LoginUser UserDto user) {
         ServiceProvider serviceProvider = this.serviceProviderService.findById(id);
-        //ServiceProviderDto dto = CloneFactory.copy(new ServiceProviderDto(), serviceProvider);
-        return new ReturnObject(serviceProvider);
+        ServiceProviderDto dto = CloneFactory.copy(new ServiceProviderDto(), serviceProvider);
+        return new ReturnObject(ReturnNo.OK, dto);
     }
 
+    /**
+     * 平台管理员取消服务商
+     * @param aid
+     * @param mid
+     * @param userDto
+     * @return
+     */
     @GetMapping("/adminusers/{aid}/maintainers/{mid}/cancel")
     @Audit(departName = "shops")
     public ReturnObject cancelServiceProvider(@PathVariable Long aid, @PathVariable Long mid, @LoginUser UserDto userDto) {
-        ReturnNo errno = this.serviceProviderService.changeServiceProviderStatus(mid, ServiceProvider.FAILED);
+        ReturnNo errno = this.serviceProviderService.changeServiceProviderStatus(mid, ServiceProvider.BANNED);
         return new ReturnObject(errno);
     }
 
+    /**
+     * 平台管理员恢复服务商
+     * @param aid
+     * @param mid
+     * @param userDto
+     * @return
+     */
     @GetMapping("/adminusers/{aid}/maintainers/{mid}/resume")
     @Audit(departName = "shops")
     public ReturnObject resumeServiceProvider(@PathVariable Long aid, @PathVariable Long mid, @LoginUser UserDto userDto) {
@@ -47,6 +68,13 @@ public class ServiceProviderController {
         return new ReturnObject(errno);
     }
 
+    /**
+     * 平台管理员暂停服务商
+     * @param aid
+     * @param mid
+     * @param userDto
+     * @return
+     */
     @GetMapping("/adminusers/{aid}/maintainers/{mid}/suspend")
     @Audit(departName = "shops")
     public ReturnObject suspendServiceProvider(@PathVariable Long aid, @PathVariable Long mid, @LoginUser UserDto userDto) {

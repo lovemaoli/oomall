@@ -52,7 +52,6 @@ public class AftersaleControllerTest {
         Aftersale aftersale = new Aftersale();
         aftersale.setId(1L);
         ArbitrationDao aftersaleService = Mockito.mock(ArbitrationDao.class);
-        Mockito.when(aftersaleService.findById(1L)).thenReturn(aftersale);
 
         this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 1L)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

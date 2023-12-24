@@ -1,8 +1,8 @@
 package cn.edu.xmu.oomall.aftersale.dao.bo;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
-import cn.edu.xmu.oomall.aftersale.controller.dto.AftersaleExpressDto;
-import cn.edu.xmu.oomall.aftersale.controller.vo.AftersaleExpressVo;
+//import cn.edu.xmu.oomall.aftersale.controller.dto.AftersaleExpressDto;
+//import cn.edu.xmu.oomall.aftersale.controller.vo.AftersaleExpressVo;
 import cn.edu.xmu.oomall.aftersale.dao.AftersaleExpressDao;
 import cn.edu.xmu.oomall.aftersale.dao.ArbitrationDao;
 import cn.edu.xmu.oomall.aftersale.mapper.po.AftersaleExpressPo;

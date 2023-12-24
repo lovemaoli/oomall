@@ -75,6 +75,7 @@ public class ServiceProviderDao {
         Optional<ServiceProviderPo> serviceProviderPo = this.serviceProviderPoMapper.findById(id);
         if (serviceProviderPo.isPresent()) {
             ServiceProvider bo = this.build(serviceProviderPo.get());
+            return bo;
         } else {
             return null;
         }

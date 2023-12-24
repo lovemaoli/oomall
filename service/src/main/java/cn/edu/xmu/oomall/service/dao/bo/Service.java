@@ -21,7 +21,7 @@ import java.util.*;
 @AllArgsConstructor
 @ToString(callSuper = true, doNotUseGetters = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-//@CopyFrom({ServicePo.class, ServiceVo.class})
+@CopyFrom({ServicePo.class})
 public class Service implements Serializable{
 
     @ToString.Exclude
@@ -106,6 +106,11 @@ public class Service implements Serializable{
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public void changeStatus(Integer status) {
+        this.status = status;
+        serviceDao.save(this);
     }
 
     public Long getService_provider_id() {
