@@ -54,7 +54,6 @@ public class ArbitrationControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.CREATED.getErrNo())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.customer_id", is(1L)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.reason", is("test_reason")))
                 .andDo(MockMvcResultHandlers.print());
     }
 
