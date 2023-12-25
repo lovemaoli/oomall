@@ -37,4 +37,16 @@ public class ServiceOrderService {
         return ret;
     }
 
+    public ReturnNo serviceProviderCancelOrder(Long mid, Long id, String reason, UserDto user) {
+        ServiceOrder serviceOrder = serviceOrderDao.findById(id);
+        if(serviceOrder == null) {
+            return ReturnNo.RESOURCE_ID_NOTEXIST;
+        }
+        if(serviceOrder.getService_provider_id() != user.getDepartId()) {
+            return ReturnNo.AUTH_INVALID_ACCOUNT;
+        }
+        ReturnNo ret = serviceOrder.providerCancel(reason, user);
+        return ret;
+    }
+
 }

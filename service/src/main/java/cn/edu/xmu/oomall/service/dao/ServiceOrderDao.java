@@ -1,5 +1,6 @@
 package cn.edu.xmu.oomall.service.dao;
 
+import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.javaee.core.util.CloneFactory;
 import cn.edu.xmu.oomall.service.dao.bo.ServiceOrder;
 import cn.edu.xmu.oomall.service.mapper.ServiceOrderPoMapper;
@@ -38,8 +39,16 @@ public class ServiceOrderDao {
         return null;
     }
 
-    public void save(ServiceOrder serviceOrder) {
+    public void save(ServiceOrder serviceOrder, UserDto user) {
         ServiceOrderPo po = CloneFactory.copy(new ServiceOrderPo(), serviceOrder);
         serviceOrderPoMapper.save(po);
+    }
+
+    public ServiceOrder findById(Long id) {
+        Optional<ServiceOrderPo> po = serviceOrderPoMapper.findById(id);
+        if(po.isPresent()) {
+            return build(po.get());
+        }
+        return null;
     }
 }

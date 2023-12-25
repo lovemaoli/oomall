@@ -5,6 +5,7 @@ import cn.edu.xmu.javaee.core.exception.BusinessException;
 import cn.edu.xmu.javaee.core.model.ReturnNo;
 
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
+import cn.edu.xmu.oomall.service.dao.ExpressDao;
 import cn.edu.xmu.oomall.service.dao.ServiceOrderDao;
 import cn.edu.xmu.oomall.service.mapper.po.ServiceOrderPo;
 import cn.edu.xmu.oomall.service.mapper.po.ServicePo;
@@ -87,6 +88,9 @@ public class ServiceOrder implements Serializable{
     private Long prodcut_item_id;
 
     private ServiceOrderDao serviceOrderDao;
+
+    private ExpressDao expressDao;
+
     public Long getId() {
         return id;
     }
@@ -232,7 +236,23 @@ public class ServiceOrder implements Serializable{
             return ReturnNo.STATENOTALLOW;
         }
         this.setStatus(PROCESSING);
-        serviceOrderDao.save(this);
+        serviceOrderDao.save(this, user);
         return ReturnNo.OK;
     }
+
+    public ReturnNo providerCancel(String reason, UserDto user) {
+        if(this.status != PROCESSING) {
+            return ReturnNo.STATENOTALLOW;
+        }
+        if(!this.service_provider_id.equals(user.getDepartId())) {
+            return ReturnNo.AUTH_NO_RIGHT;
+        }
+        if(this.type == SEND) {
+            expressDao.createExpress(this, user);
+        }
+        this.setStatus(NEW);
+        serviceOrderDao.save(this, user);
+        return ReturnNo.OK;
+    }
+
 }

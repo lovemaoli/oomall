@@ -12,7 +12,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 @Entity
-@Table(name = "aftersale_express")
+@Table(name = "service_express")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -26,21 +26,18 @@ public class ExpressPo {
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
-    }    public Long getService_order_id() {
+    }
+    public Long getService_order_id() {
         return service_order_id;
     }
-
     public void setService_order_id(Long service_order_id) {
         this.service_order_id = service_order_id;
     }
-
     public Long getBill_code() {
         return bill_code;
     }
-
     public void setBill_code(Long bill_code) {
         this.bill_code = bill_code;
     }
