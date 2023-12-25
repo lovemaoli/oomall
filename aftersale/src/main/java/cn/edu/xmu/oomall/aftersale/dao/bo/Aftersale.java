@@ -6,6 +6,7 @@ import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.model.ReturnObject;
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.oomall.aftersale.controller.vo.AftersaleVo;
+import cn.edu.xmu.oomall.aftersale.controller.vo.ApplyAftersaleVo;
 import cn.edu.xmu.oomall.aftersale.dao.AftersaleDao;
 import cn.edu.xmu.oomall.aftersale.dao.ArbitrationDao;
 import cn.edu.xmu.oomall.aftersale.mapper.po.AftersalePo;
@@ -26,7 +27,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @ToString(callSuper = true, doNotUseGetters = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@CopyFrom({AftersalePo.class, AftersaleVo.class})
+@CopyFrom({AftersalePo.class, ApplyAftersaleVo.class})
 public class Aftersale implements Serializable {
     @ToString.Exclude
     @JsonIgnore
@@ -46,6 +47,10 @@ public class Aftersale implements Serializable {
     @ToString.Exclude
     @JsonIgnore
     public static final Integer FINISH = 5;
+
+    @ToString.Exclude
+    @JsonIgnore
+    public static final Integer REPAIR = 2;
 
     public static Map<Integer, String> statusMap = Stream.of(new Object[][] {
             {NEW, "新售后单"},
@@ -76,7 +81,7 @@ public class Aftersale implements Serializable {
     }
 
     private Long id;
-    private Integer type;
+    private Integer type; // 0退货 1换货 2维修
     private Integer status;
     private String reason;
     private String conclusion;
@@ -86,6 +91,7 @@ public class Aftersale implements Serializable {
     private String address;
     private LocalDateTime gmt_apply;
     private LocalDateTime gmt_end;
+    private Long order_id;
     private Long order_item_id;
     private Long product_item_id;
     private Long product_id;
@@ -219,6 +225,12 @@ public class Aftersale implements Serializable {
     public void setGmt_end(LocalDateTime gmt_end) {
         this.gmt_end = gmt_end;
     }
+    public Long getOrder_id() {
+        return order_id;
+    }
+    public void setOrder_id(Long order_id) {
+        this.order_id = order_id;
+    }
 
     public Long getOrder_item_id() {
         return order_item_id;
@@ -281,6 +293,21 @@ public class Aftersale implements Serializable {
     }
 
 
-
-
+    public void create(OrderItem orderItem, Aftersale bo, Long user) {
+        this.type = bo.getType();
+        this.status = Aftersale.NEW;
+        this.reason = bo.getReason();
+        this.quantity = orderItem.getQuantity();
+        this.contact = bo.getContact();
+        this.mobile = bo.getMobile();
+        this.address = bo.getAddress();
+        this.gmt_apply = LocalDateTime.now();
+        this.order_id = orderItem.getOrderId();
+        this.order_item_id = orderItem.getId();
+        this.product_item_id = orderItem.getId();
+        this.product_id = orderItem.getId(); // TODO
+        this.shop_id = orderItem.getShopId();
+        this.customer_id = user;
+        this.in_arbitration = 0;
+    }
 }

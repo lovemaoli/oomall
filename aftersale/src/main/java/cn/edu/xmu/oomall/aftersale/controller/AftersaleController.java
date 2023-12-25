@@ -4,6 +4,7 @@ import cn.edu.xmu.javaee.core.aop.Audit;
 import cn.edu.xmu.javaee.core.aop.LoginUser;
 import cn.edu.xmu.javaee.core.model.ReturnObject;
 import cn.edu.xmu.javaee.core.util.CloneFactory;
+import cn.edu.xmu.oomall.aftersale.controller.vo.ApplyAftersaleVo;
 import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
 import cn.edu.xmu.oomall.aftersale.service.AftersaleService;
 import cn.edu.xmu.oomall.aftersale.controller.dto.AftersaleDto;
@@ -49,6 +50,17 @@ public class AftersaleController {
         Aftersale aftersale = this.aftersaleService.findById(id);
         AftersaleDto dto = CloneFactory.copy(new AftersaleDto(), aftersale);
         return new ReturnObject(dto);
+    }
+
+    /**
+     * 顾客提交售后申请
+     */
+    @PostMapping("/order/{oid}/orderitem/{id}/aftersales")
+    @Audit
+    public ReturnObject applyAftersale(@PathVariable Long oid, @PathVariable Long id, @RequestBody ApplyAftersaleVo vo, @LoginUser Long user) {
+        Aftersale bo = CloneFactory.copy(new Aftersale(), vo);
+        ReturnObject ret = aftersaleService.applyAftersale(oid, id, bo, user);
+        return ret;
     }
 
     /**

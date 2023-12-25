@@ -24,6 +24,8 @@ public class OrderItemPo {
     private Long id;
     private Long latest_aftersale_id;
     private Integer quantity;
+    private Long order_id;
+    private Long shop_id;
 
 
     public Long getId() {
@@ -48,5 +50,21 @@ public class OrderItemPo {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Long getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(Long order_id) {
+        this.order_id = order_id;
+    }
+
+    public Long getShop_id() {
+        return shop_id;
+    }
+
+    public void setShop_id(Long shop_id) {
+        this.shop_id = shop_id;
     }
 }

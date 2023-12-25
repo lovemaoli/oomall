@@ -6,6 +6,7 @@ import cn.edu.xmu.javaee.core.util.CloneFactory;
 //import cn.edu.xmu.oomall.aftersale.controller.dto.OrderItemDto;
 //import cn.edu.xmu.oomall.aftersale.controller.vo.OrderItemVo;
 //import cn.edu.xmu.oomall.aftersale.dao.AftersaleDao;
+import cn.edu.xmu.oomall.aftersale.dao.AftersaleDao;
 import cn.edu.xmu.oomall.aftersale.dao.OrderItemDao;
 import cn.edu.xmu.oomall.aftersale.mapper.po.OrderItemPo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,8 +30,12 @@ public class OrderItem implements Serializable {
     private Long id;
     private Long latest_aftersale_id;
     private Integer quantity;
+    private Long order_id;
+    private Long shop_id;
 
     private OrderItemDao orderItemDao;
+
+    private AftersaleDao aftersaleDao;
 
     public Long getId() {
         return id;
@@ -56,11 +61,50 @@ public class OrderItem implements Serializable {
         this.quantity = quantity;
     }
 
+    public Long getOrderId() {
+        return order_id;
+    }
+
+    public void setOrderId(Long order_id) {
+        this.order_id = order_id;
+    }
+
+    public Long getShopId() {
+        return shop_id;
+    }
+
+    public void setShopId(Long shop_id) {
+        this.shop_id = shop_id;
+    }
+
+
     public OrderItemDao getOrderItemDao() {
         return orderItemDao;
     }
 
     public void setOrderItemDao(OrderItemDao orderItemDao) {
         this.orderItemDao = orderItemDao;
+    }
+
+    public AftersaleDao getAftersaleDao() {
+        return aftersaleDao;
+    }
+
+    public void setAftersaleDao(AftersaleDao aftersaleDao) {
+        this.aftersaleDao = aftersaleDao;
+    }
+
+    public Aftersale createAftersale(Aftersale bo, Long user) {
+        Aftersale latestAftersale = aftersaleDao.findById(latest_aftersale_id);
+        if(latestAftersale == null ||
+                latestAftersale.getStatus() == Aftersale.CANCEL ||
+                (latestAftersale.getStatus() == Aftersale.FINISH && latestAftersale.getType() == Aftersale.REPAIR && bo.getType() == Aftersale.REPAIR)) {
+            Aftersale aftersale = new Aftersale();
+            aftersale.create(this, bo, user);
+            aftersaleDao.save(aftersale);
+            this.latest_aftersale_id = aftersale.getId();
+            return aftersale;
+        }
+        return null;
     }
 }

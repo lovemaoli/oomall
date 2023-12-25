@@ -52,7 +52,7 @@ public class DraftServiceService {
      * @param user
      * @return
      */
-    public ReturnObject defServiceForProductInRegion(Long mid, Long rid, DraftServiceVo vo, UserDto user) {
+    public ReturnObject defServiceForProductInRegion(Long mid, Long rid, DraftService bo, UserDto user) {
         ServiceProvider serviceProvider = this.serviceProviderDao.findById(mid);
         if (serviceProvider == null) {
             return new ReturnObject(ReturnNo.RESOURCE_ID_NOTEXIST);
@@ -61,7 +61,6 @@ public class DraftServiceService {
         if (regionPo == null) {
             return new ReturnObject(ReturnNo.RESOURCE_ID_NOTEXIST);
         }
-        DraftService bo = CloneFactory.copy(new DraftService(), vo);
         bo.setStatus(0);
         bo.setService_provider_id(mid);
         bo.setRegion_id(rid);

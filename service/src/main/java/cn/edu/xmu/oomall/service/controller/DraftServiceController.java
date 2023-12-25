@@ -37,7 +37,8 @@ public class DraftServiceController {
     @PostMapping("/maintainers/{mid}/region/{rid}/service")
     @Audit
     public ReturnObject defServiceForProductInRegion(@PathVariable Long mid, @PathVariable Long rid, @RequestBody DraftServiceVo vo, @LoginUser UserDto user) {
-        ReturnObject ret = this.draftServiceService.defServiceForProductInRegion(mid, rid, vo, user);
+        DraftService bo = CloneFactory.copy(new DraftService(), vo);
+        ReturnObject ret = this.draftServiceService.defServiceForProductInRegion(mid, rid, bo, user);
         return ret;
     }
 
