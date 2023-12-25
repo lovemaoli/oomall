@@ -2,11 +2,8 @@ package cn.edu.xmu.oomall.service.dao;
 
 import cn.edu.xmu.javaee.core.util.CloneFactory;
 import cn.edu.xmu.oomall.service.dao.bo.Service;
-import cn.edu.xmu.oomall.service.dao.bo.ShopService;
-import cn.edu.xmu.oomall.service.mapper.ShopServicePoMapper;
 import cn.edu.xmu.oomall.service.mapper.po.ServicePo;
-import cn.edu.xmu.oomall.service.mapper.po.ServicePoMapper;
-import cn.edu.xmu.oomall.service.mapper.po.ShopServicePo;
+import cn.edu.xmu.oomall.service.mapper.ServicePoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
