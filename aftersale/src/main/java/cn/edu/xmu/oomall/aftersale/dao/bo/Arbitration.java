@@ -45,15 +45,15 @@ public class Arbitration implements Serializable {
     @JsonIgnore
     public static final Integer CANCEL = 4;
     public static Map<Integer, String> statusMap = Stream.of(new Object[][] {
-            {NEW, "新订单"},
-            {RESPOND, "待商家处理"},
+            {NEW, "申请中"},
+            {RESPOND, "待应诉"},
             {ARBING, "仲裁中"},
-            {SUCCESS, "仲裁成功"},
-            {CANCEL, "仲裁失败"},
+            {SUCCESS, "已仲裁"},
+            {CANCEL, "取消"},
     }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (String) data[1]));
 
     public static Map<Integer, List<Integer>> statusTransferMap = Stream.of(new Object[][] {
-            {NEW, Arrays.asList(RESPOND, CANCEL)},
+            {NEW, Arrays.asList(RESPOND, CANCEL,NEW)},
             {RESPOND, Arrays.asList(ARBING, CANCEL)},
             {ARBING, Arrays.asList(SUCCESS, CANCEL)},
             {SUCCESS, List.of()},
