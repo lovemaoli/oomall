@@ -119,7 +119,7 @@ public class Aftersale implements Serializable {
     private ArbitrationDao arbitrationDao;
 
     public boolean allowApplyArbitration(UserDto user) {
-        return this.status == Aftersale.FINISH && this.customer_id == user.getId();
+        return this.status == Aftersale.FINISH && this.customer_id == user.getId() && this.in_arbitration == 0;
     }
 
     /**
@@ -136,6 +136,8 @@ public class Aftersale implements Serializable {
         Arbitration arbitration = new Arbitration();
         arbitration.create(this, reason);
         arbitrationDao.insert(arbitration);
+        setIn_arbitration(1);
+        aftersaleDao.update(this);
         return new ReturnObject(arbitration);
     }
 
