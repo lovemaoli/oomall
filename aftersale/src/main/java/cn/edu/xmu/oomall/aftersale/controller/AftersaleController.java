@@ -6,6 +6,7 @@ import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.model.ReturnObject;
 import cn.edu.xmu.javaee.core.util.CloneFactory;
 import cn.edu.xmu.oomall.aftersale.controller.vo.ApplyAftersaleVo;
+import cn.edu.xmu.oomall.aftersale.controller.vo.ShopConfirmVo;
 import cn.edu.xmu.oomall.aftersale.controller.vo.ShopReceiveVo;
 import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
 import cn.edu.xmu.oomall.aftersale.service.AftersaleService;
@@ -72,6 +73,16 @@ public class AftersaleController {
     @Audit(departName = "shops")
     public ReturnObject shopReceive(@PathVariable Long shopid, @RequestBody ShopReceiveVo vo, @LoginUser Long user) {
         ReturnNo ret = aftersaleService.shopReceive(vo.getBillcode(), shopid, vo.getConfirm(), vo.getConclusion(), user);
+        return new ReturnObject(ret);
+    }
+
+    /**
+     * 商铺审核售后
+     */
+    @PutMapping("/shops/{shopid}/aftersales/{id}/confirm")
+    @Audit(departName = "shops")
+    public ReturnObject shopConfirm(@PathVariable Long shopid, @PathVariable Long aid, @RequestBody ShopConfirmVo vo, @LoginUser Long user) {
+        ReturnNo ret = aftersaleService.auditAftersale(aid, shopid, vo.getConfirm(), vo.getConclusion(), user);
         return new ReturnObject(ret);
     }
 

@@ -1,9 +1,15 @@
 package cn.edu.xmu.oomall.aftersale.dao.bo.aftersale;
 
+import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
 
 public class MaintainAftersale extends Aftersale {
 
+    @Override
+    public ReturnNo shopAudit(Long shopid){
+        //TODO 创建服务单
+        return ReturnNo.OK;
+    }
     public MaintainAftersale(Aftersale aftersale){
         this.setId(aftersale.getId());
         this.setType(aftersale.getType());

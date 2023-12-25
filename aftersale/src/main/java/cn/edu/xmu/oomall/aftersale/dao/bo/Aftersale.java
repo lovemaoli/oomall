@@ -364,4 +364,27 @@ public class Aftersale implements Serializable {
         logger.error("Aftersale examine");
         return ReturnNo.RESOURCE_FALSIFY;
     }
+
+    public ReturnNo shopAudit(Long shopid){
+        logger.error("Aftersale shopAudit");
+        return ReturnNo.RESOURCE_FALSIFY;
+    }
+
+
+    public ReturnNo audit(Long shopid, Boolean confirm, String conclusion, Long user) {
+        ReturnNo ret;
+        if(this.status == Aftersale.NEW) {
+            return ReturnNo.AFTERSALE_STATENOTALLOW;
+        }
+        this.setConclusion(conclusion);
+        if(confirm == Boolean.FALSE) {
+            this.setStatus(Aftersale.FINISH);
+            ret = ReturnNo.OK;
+        }else{
+            this.setStatus(Aftersale.PENDING);
+            ret = this.shopAudit(shopid);
+        }
+        this.save();
+        return ret;
+    }
 }

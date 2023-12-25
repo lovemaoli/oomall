@@ -81,4 +81,14 @@ public class AftersaleService {
             aftersale = new MaintainAftersale(aftersale);
         return aftersale;
     }
+
+    public ReturnNo auditAftersale(Long aid, Long shopid, Boolean confirm, String conclusion, Long user) {
+        Aftersale aftersale = this.aftersaleDao.findById(aid);
+        if(aftersale == null) {
+            return ReturnNo.RESOURCE_ID_NOTEXIST;
+        }
+        aftersale = buildAftersale(aftersale);
+        ReturnNo ret = aftersale.audit(shopid, confirm, conclusion, user);
+        return ret;
+    }
 }

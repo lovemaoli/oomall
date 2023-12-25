@@ -33,6 +33,18 @@ public class ExchangeAftersale extends Aftersale{
         }
     }
 
+    @Override
+    public ReturnNo shopAudit(Long shopid){
+        Long billcode = this.getExpressDao().createExpress(shopid); //TODO
+        AftersaleExpress aftersaleExpress = new AftersaleExpress();
+        aftersaleExpress.setAftersale_id(this.getId());
+        aftersaleExpress.setBill_code(billcode);
+        aftersaleExpress.setSender(0);
+        aftersaleExpress.setStatus(0);
+        this.getAftersaleExpressDao().insert(aftersaleExpress);
+        return ReturnNo.OK;
+    }
+
     public ExchangeAftersale(Aftersale aftersale){
         this.setId(aftersale.getId());
         this.setType(aftersale.getType());
