@@ -56,7 +56,7 @@ public class ArbitrationControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.customer_id", is(1L)))
                 .andDo(MockMvcResultHandlers.print());
     }
-
+    @Test
     //用户无权限
     void createArbitrationWhenVisitorUse()throws Exception{
         String body = "{\"name\":\"test\", \"reason\": \"test_reason\"}";
@@ -69,7 +69,7 @@ public class ArbitrationControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
                 .andDo(MockMvcResultHandlers.print());
     }
-
+    @Test
     //顾客取消仲裁成功
     void deleteArbitrationWhenUserSucceed() throws Exception {
 
