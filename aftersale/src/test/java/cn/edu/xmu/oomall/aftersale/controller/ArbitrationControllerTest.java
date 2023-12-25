@@ -35,6 +35,7 @@ public class ArbitrationControllerTest {
     private static String customerToken;
     private static String visitorToken;
     private static final String CREATE_AFTERSALE = "/aftersales/{aid}/arbitrations";
+    private static final String DELETE_AFTERSALE = "/arbitrations/{aid}";
     @BeforeAll
     public static void setup(){
         JwtHelper jwtHelper = new JwtHelper();
@@ -42,6 +43,7 @@ public class ArbitrationControllerTest {
         visitorToken=jwtHelper.createToken(2L,"visitor1",-1L,1,3600);
     }
     @Test
+    //成功样例
     void createArbitrationWhenUserSucceed() throws Exception {
         String body = "{\"name\":\"test\", \"reason\": \"test_reason\"}";
 
@@ -50,9 +52,34 @@ public class ArbitrationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(body))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno").value(0))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.CREATED.getErrNo())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.customer_id", is(1L)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.reason", is("test_reason")))
                 .andDo(MockMvcResultHandlers.print());
     }
+
+    //用户无权限
+    void createArbitrationWhenVisitorUse()throws Exception{
+        String body = "{\"name\":\"test\", \"reason\": \"test_reason\"}";
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post(CREATE_AFTERSALE, 1L)
+                        .header("authorization", visitorToken)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(body))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    //顾客取消仲裁成功
+    void deleteArbitrationWhenUserSucceed() throws Exception {
+
+        this.mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_AFTERSALE, 1L)
+                        .header("authorization", customerToken)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
 }
