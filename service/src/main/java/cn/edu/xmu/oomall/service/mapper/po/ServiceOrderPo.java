@@ -14,7 +14,9 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @CopyFrom({ServiceOrder.class})
 public class ServiceOrderPo {
-
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer type;
     private String address;
