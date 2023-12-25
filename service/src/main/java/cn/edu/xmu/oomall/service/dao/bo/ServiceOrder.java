@@ -4,6 +4,7 @@ import cn.edu.xmu.javaee.core.aop.CopyFrom;
 import cn.edu.xmu.javaee.core.exception.BusinessException;
 import cn.edu.xmu.javaee.core.model.ReturnNo;
 
+import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.oomall.service.dao.ServiceOrderDao;
 import cn.edu.xmu.oomall.service.mapper.po.ServiceOrderPo;
 import cn.edu.xmu.oomall.service.mapper.po.ServicePo;
@@ -224,5 +225,14 @@ public class ServiceOrder implements Serializable{
 
     public void setServiceOrderDao(ServiceOrderDao serviceOrderDao) {
         this.serviceOrderDao = serviceOrderDao;
+    }
+
+    public ReturnNo confirm(UserDto user) {
+        if(this.status != UNPROCESSED) {
+            return ReturnNo.STATENOTALLOW;
+        }
+        this.setStatus(PROCESSING);
+        serviceOrderDao.save(this);
+        return ReturnNo.OK;
     }
 }

@@ -25,4 +25,36 @@ public class DraftServiceVo {
     @NotBlank(message = "服务商品类别不能为空", groups = {NewGroup.class})
     private String category_name;
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
+
 }

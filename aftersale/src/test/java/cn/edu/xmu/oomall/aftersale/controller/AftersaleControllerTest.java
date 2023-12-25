@@ -28,8 +28,6 @@ import static org.hamcrest.CoreMatchers.is;
 public class AftersaleControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
-    private RedisUtil redisUtil;
     private static final String AFTERSALE = "/aftersales/{id}";
 
     @Test

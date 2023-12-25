@@ -1,13 +1,18 @@
 package cn.edu.xmu.oomall.service.mapper.po;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
-import cn.edu.xmu.oomall.aftersale.dao.bo.ServieOrder;
+import cn.edu.xmu.oomall.service.dao.bo.ServiceOrder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import jakarta.persistence.*;
 
+@Entity
+@Table(name = "service_service_order")
+@AllArgsConstructor
+@NoArgsConstructor
+@CopyFrom({ServiceOrder.class})
 public class ServiceOrderPo {
 
     private Long id;

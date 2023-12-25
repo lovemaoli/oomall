@@ -24,13 +24,28 @@ public class AftersaleController {
         this.aftersaleService = aftersaleService;
     }
 
+
+    /**
+     * 管理员或商铺根据售后单id查询售后单信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/shops/{shopid}/aftersales/{id}")
+    @Audit(departName = "shops")
+    public ReturnObject findAftersaleByIdShop(@PathVariable Long shopid, @PathVariable Long id, @LoginUser Long user) {
+        Aftersale aftersale = this.aftersaleService.findById(id);
+        AftersaleDto dto = CloneFactory.copy(new AftersaleDto(), aftersale);
+        return new ReturnObject(dto);
+    }
+
     /**
      * 顾客根据售后单id查询售后单信息
      * @param id
      * @return
      */
     @GetMapping("/aftersales/{id}")
-    public ReturnObject findAftersaleById(@PathVariable Long id) {
+    @Audit
+    public ReturnObject findAftersaleById(@PathVariable Long id, @LoginUser Long user) {
         Aftersale aftersale = this.aftersaleService.findById(id);
         AftersaleDto dto = CloneFactory.copy(new AftersaleDto(), aftersale);
         return new ReturnObject(dto);

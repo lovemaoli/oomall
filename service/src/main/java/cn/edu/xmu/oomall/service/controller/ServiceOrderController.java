@@ -1,0 +1,37 @@
+package cn.edu.xmu.oomall.service.controller;
+
+import cn.edu.xmu.javaee.core.aop.Audit;
+import cn.edu.xmu.javaee.core.aop.LoginUser;
+import cn.edu.xmu.javaee.core.model.ReturnNo;
+import cn.edu.xmu.javaee.core.model.ReturnObject;
+import cn.edu.xmu.javaee.core.model.dto.UserDto;
+import cn.edu.xmu.javaee.core.util.CloneFactory;
+
+import cn.edu.xmu.oomall.service.controller.vo.ServiceProviderReceiveVo;
+import cn.edu.xmu.oomall.service.service.ServiceOrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping(produces = "application/json;charset=UTF-8")
+public class ServiceOrderController {
+    private final Logger logger = LoggerFactory.getLogger(DraftServiceController.class);
+
+    private final ServiceOrderService serviceOrderService;
+
+    @Autowired
+    public ServiceOrderController(ServiceOrderService serviceOrderService) {
+        this.serviceOrderService = serviceOrderService;
+    }
+
+    /**
+     * 服务商确认收件
+     */
+    @PutMapping("/maintainers/{mid}/receive")
+    public ReturnObject serviceProviderReceive(@PathVariable Long mid, @RequestBody ServiceProviderReceiveVo vo, @LoginUser UserDto user) {
+        ReturnNo code = serviceOrderService.confirmReceive(mid, vo.getBillcode(), user);
+        return new ReturnObject(code);
+    }
+}
