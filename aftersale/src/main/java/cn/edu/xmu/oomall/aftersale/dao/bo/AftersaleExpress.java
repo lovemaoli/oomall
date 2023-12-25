@@ -29,6 +29,7 @@ public class AftersaleExpress implements Serializable{
     private Long bill_code;
     private Integer sender;
     private Integer status;
+    private Long express_id;
     private AftersaleExpressDao aftersaleExpressDao;
 
     public Long getId() {
@@ -69,6 +70,14 @@ public class AftersaleExpress implements Serializable{
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getExpress_id() {
+        return express_id;
+    }
+
+    public void setExpress_id(Long express_id) {
+        this.express_id = express_id;
     }
 
     public AftersaleExpressDao getAftersaleExpressDao() {

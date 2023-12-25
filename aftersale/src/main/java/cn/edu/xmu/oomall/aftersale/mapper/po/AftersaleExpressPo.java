@@ -1,7 +1,7 @@
 package cn.edu.xmu.oomall.aftersale.mapper.po;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
-import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
+import cn.edu.xmu.oomall.aftersale.dao.bo.AftersaleExpress;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@CopyFrom({Aftersale.class})
+@CopyFrom({AftersaleExpress.class})
 public class AftersaleExpressPo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
