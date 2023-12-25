@@ -42,16 +42,11 @@ public class AftersaleDao {
         this.redisUtil = redisUtil;
     }
 
-    public void build(Aftersale bo){
-        bo.setAftersaleDao(this);
-    }
-
-    public Aftersale build(AftersalePo po, Optional<String> redisKey){
+    public Aftersale build(AftersalePo po){
         Aftersale bo = CloneFactory.copy(new Aftersale(), po);
-        this.build(bo);
-        redisKey.ifPresent(key -> redisUtil.set(key, bo, timeout));
         return bo;
     }
+
 
     public Aftersale update(Aftersale bo) {
         AftersalePo po = CloneFactory.copy(new AftersalePo(), bo);
@@ -65,25 +60,27 @@ public class AftersaleDao {
      * @return 售后单
      */
     public Aftersale findById(Long id) {
-        if(id == null || id <= 0){
-            throw new BusinessException(ReturnNo.RESOURCE_ID_NOTEXIST, String.format("售后单id不存在"));
-        }
-        String key = String.format(KEY, id);
-        Aftersale bo = (Aftersale) redisUtil.get(key);
-        if (bo != null) {
-            this.build(bo);
-            return bo;
-        }
         Optional<AftersalePo> po = aftersalePoMapper.findById(id);
         if (po.isPresent()) {
-            bo = build(po.get(), Optional.of(key));
-            return bo;
+            return build(po.get());
+        } else {
+            return null;
         }
-        throw new BusinessException(ReturnNo.RESOURCE_ID_NOTEXIST, String.format("售后单id不存在"));
     }
 
     public void save(Aftersale aftersale) {
         AftersalePo po = CloneFactory.copy(new AftersalePo(), aftersale);
         aftersalePoMapper.save(po);
     }
+
+    public Aftersale findByBillCode(Long billcode, Long shopid) {
+        Optional<AftersalePo> po = aftersalePoMapper.findByBillCode(billcode, shopid);
+        if(po.isPresent()) {
+            return build(po.get());
+        } else {
+            return null;
+        }
+    }
+
+
 }

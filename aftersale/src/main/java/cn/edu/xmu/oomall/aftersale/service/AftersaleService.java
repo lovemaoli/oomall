@@ -9,6 +9,9 @@ import cn.edu.xmu.oomall.aftersale.dao.AftersaleDao;
 import cn.edu.xmu.oomall.aftersale.dao.OrderItemDao;
 import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
 import cn.edu.xmu.oomall.aftersale.dao.bo.OrderItem;
+import cn.edu.xmu.oomall.aftersale.dao.bo.aftersale.ExchangeAftersale;
+import cn.edu.xmu.oomall.aftersale.dao.bo.aftersale.MaintainAftersale;
+import cn.edu.xmu.oomall.aftersale.dao.bo.aftersale.ReturnAftersale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +56,29 @@ public class AftersaleService {
         }
         Aftersale aftersale = orderItem.createAftersale(bo, user);
         return new ReturnObject(aftersale);
+    }
+
+    public ReturnNo shopReceive(Long billcode, Long shopid, Boolean confirm, String conclusion, Long user) {
+        Aftersale aftersale = this.aftersaleDao.findByBillCode(billcode, shopid);
+        aftersale = buildAftersale(aftersale);
+        if(aftersale == null) {
+            return ReturnNo.RESOURCE_ID_NOTEXIST;
+        }
+        if(aftersale.getType() == Aftersale.REPAIR){
+            return ReturnNo.AFTERSALE_STATENOTALLOW;
+        }
+        aftersale.setConclusion(conclusion);
+        ReturnNo ret = aftersale.examine(shopid, confirm);
+        return ret;
+    }
+
+    public Aftersale buildAftersale(Aftersale aftersale){
+        if(aftersale.getType()==Aftersale.RETURN)
+            aftersale = new ReturnAftersale(aftersale);
+        else if(aftersale.getType()==Aftersale.EXCHANGE)
+            aftersale = new ExchangeAftersale(aftersale);
+        else if(aftersale.getType()==Aftersale.REPAIR)
+            aftersale = new MaintainAftersale(aftersale);
+        return aftersale;
     }
 }

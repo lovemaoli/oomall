@@ -7,8 +7,7 @@ import cn.edu.xmu.javaee.core.model.ReturnObject;
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.oomall.aftersale.controller.vo.AftersaleVo;
 import cn.edu.xmu.oomall.aftersale.controller.vo.ApplyAftersaleVo;
-import cn.edu.xmu.oomall.aftersale.dao.AftersaleDao;
-import cn.edu.xmu.oomall.aftersale.dao.ArbitrationDao;
+import cn.edu.xmu.oomall.aftersale.dao.*;
 import cn.edu.xmu.oomall.aftersale.mapper.po.AftersalePo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -48,6 +47,12 @@ public class Aftersale implements Serializable {
     @JsonIgnore
     public static final Integer FINISH = 5;
 
+    @ToString.Exclude
+    @JsonIgnore
+    public static final Integer RETURN = 0;
+    @ToString.Exclude
+    @JsonIgnore
+    public static final Integer EXCHANGE = 1;
     @ToString.Exclude
     @JsonIgnore
     public static final Integer REPAIR = 2;
@@ -109,7 +114,27 @@ public class Aftersale implements Serializable {
     @Setter
     @JsonIgnore
     @ToString.Exclude
+    private OrderItemDao orderItemDao;
+
+    @Setter
+    @JsonIgnore
+    @ToString.Exclude
+    private PaymentDao paymentDao;
+
+    @Setter
+    @JsonIgnore
+    @ToString.Exclude
+    private ExpressDao expressDao;
+
+    @Setter
+    @JsonIgnore
+    @ToString.Exclude
     private ArbitrationDao arbitrationDao;
+
+    @Setter
+    @JsonIgnore
+    @ToString.Exclude
+    private AftersaleExpressDao aftersaleExpressDao;
 
     public boolean allowApplyArbitration(UserDto user) {
         return this.status == Aftersale.FINISH && this.customer_id == user.getId() && this.in_arbitration == 0;
@@ -288,6 +313,30 @@ public class Aftersale implements Serializable {
         this.in_arbitration = in_arbitration;
     }
 
+    public AftersaleDao getAftersaleDao() {
+        return aftersaleDao;
+    }
+
+    public OrderItemDao getOrderItemDao() {
+        return orderItemDao;
+    }
+
+    public PaymentDao getPaymentDao() {
+        return paymentDao;
+    }
+
+    public ExpressDao getExpressDao() {
+        return expressDao;
+    }
+
+    public ArbitrationDao getArbitrationDao() {
+        return arbitrationDao;
+    }
+
+    public AftersaleExpressDao getAftersaleExpressDao() {
+        return aftersaleExpressDao;
+    }
+
     public void save() {
         this.aftersaleDao.save(this);
     }
@@ -309,5 +358,10 @@ public class Aftersale implements Serializable {
         this.shop_id = orderItem.getShopId();
         this.customer_id = user;
         this.in_arbitration = 0;
+    }
+
+    public ReturnNo examine(Long shopid, Boolean confirm){
+        logger.error("Aftersale examine");
+        return ReturnNo.RESOURCE_FALSIFY;
     }
 }
