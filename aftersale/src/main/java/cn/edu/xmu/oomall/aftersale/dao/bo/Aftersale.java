@@ -12,6 +12,7 @@ import cn.edu.xmu.oomall.aftersale.mapper.po.AftersalePo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import org.checkerframework.checker.units.qual.C;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,35 +33,24 @@ public class Aftersale implements Serializable {
     private static final Logger logger = LoggerFactory.getLogger(Aftersale.class);
     @ToString.Exclude
     @JsonIgnore
-    public static final Integer NEW = 100;
+    public static final Integer NEW = 1;
     @ToString.Exclude
     @JsonIgnore
-    public static final Integer PENDING = 200;
+    public static final Integer PENDING = 2;
     @ToString.Exclude
     @JsonIgnore
-    public static final Integer REFUND = 301;
+    public static final Integer PROCESSING = 3;
     @ToString.Exclude
     @JsonIgnore
-    public static final Integer EXCHANGE = 302;
+    public static final Integer CANCEL = 4;
     @ToString.Exclude
     @JsonIgnore
-    public static final Integer FIX = 303;
-    @ToString.Exclude
-    @JsonIgnore
-    public static final Integer EXCHANGING = 304;
-    @ToString.Exclude
-    @JsonIgnore
-    public static final Integer CANCEL = 400;
-    @ToString.Exclude
-    @JsonIgnore
-    public static final Integer FINISH = 500;
+    public static final Integer FINISH = 5;
+
     public static Map<Integer, String> statusMap = Stream.of(new Object[][] {
-            {NEW, "新订单"},
-            {PENDING, "待处理"},
-            {REFUND, "退款"},
-            {EXCHANGE, "换货"},
-            {FIX, "维修"},
-            {EXCHANGING, "换货中"},
+            {NEW, "新售后单"},
+            {PENDING, "待售后"},
+            {PROCESSING,"售后中"},
             {CANCEL, "已取消"},
             {FINISH, "已完成"},
     }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (String) data[1]));
@@ -69,13 +59,10 @@ public class Aftersale implements Serializable {
      * 允许的状态迁移
      */
     public static Map<Integer, List<Integer>> statusTransferMap = Stream.of(new Object[][] {
-            {NEW, Arrays.asList(PENDING, CANCEL)},
-            {PENDING, Arrays.asList(REFUND, EXCHANGE, FIX, CANCEL)},
-            {REFUND, Arrays.asList(FINISH)},
-            {EXCHANGE, Arrays.asList(EXCHANGING, FINISH)},
-            {FIX, Arrays.asList(FINISH)},
-            {EXCHANGING, Arrays.asList(FINISH)},
-            {CANCEL, Arrays.asList(FINISH)},
+            {NEW, Arrays.asList(PENDING, CANCEL,FINISH)},
+            {PENDING, Arrays.asList(PROCESSING, FINISH, CANCEL)},
+            {PROCESSING, Arrays.asList(FINISH)},
+            {CANCEL, Arrays.asList()},
             {FINISH, Arrays.asList()},
     }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (List<Integer>) data[1]));
 
