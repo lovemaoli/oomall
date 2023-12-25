@@ -28,6 +28,7 @@ import java.util.stream.Stream;
 public class OrderItem implements Serializable {
     private Long id;
     private Long latest_aftersale_id;
+    private Integer quantity;
 
     private OrderItemDao orderItemDao;
 
@@ -45,6 +46,14 @@ public class OrderItem implements Serializable {
 
     public void setLatest_aftersale_id(Long latest_aftersale_id) {
         this.latest_aftersale_id = latest_aftersale_id;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public OrderItemDao getOrderItemDao() {

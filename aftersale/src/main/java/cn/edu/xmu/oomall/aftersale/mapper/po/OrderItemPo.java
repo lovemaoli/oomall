@@ -23,6 +23,8 @@ public class OrderItemPo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long latest_aftersale_id;
+    private Integer quantity;
+
 
     public Long getId() {
         return id;
@@ -38,5 +40,13 @@ public class OrderItemPo {
 
     public void setLatest_aftersale_id(Long latest_aftersale_id) {
         this.latest_aftersale_id = latest_aftersale_id;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }
