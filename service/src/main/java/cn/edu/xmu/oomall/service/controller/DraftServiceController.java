@@ -34,9 +34,9 @@ public class DraftServiceController {
      * @param user
      * @return
      */
-    @GetMapping("/maintainers/{mid}/region/{rid}/service")
+    @PostMapping("/maintainers/{mid}/region/{rid}/service")
     @Audit
-    public ReturnObject findDraftServiceById(@PathVariable Long mid, @PathVariable Long rid, @RequestBody DraftServiceVo vo, @LoginUser UserDto user) {
+    public ReturnObject defServiceForProductInRegion(@PathVariable Long mid, @PathVariable Long rid, @RequestBody DraftServiceVo vo, @LoginUser UserDto user) {
         ReturnObject ret = this.draftServiceService.defServiceForProductInRegion(mid, rid, vo, user);
         return ret;
     }

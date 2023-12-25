@@ -1,28 +1,16 @@
 package cn.edu.xmu.oomall.aftersale.dao;
 
-import cn.edu.xmu.javaee.core.exception.BusinessException;
-import cn.edu.xmu.javaee.core.model.ReturnNo;
-import cn.edu.xmu.javaee.core.model.dto.UserDto;
-import cn.edu.xmu.javaee.core.mapper.RedisUtil;
-import cn.edu.xmu.oomall.aftersale.dao.bo.arbitration.Arbitration;
-import cn.edu.xmu.oomall.aftersale.mapper.AftersalePoMapper;
+import cn.edu.xmu.oomall.aftersale.dao.bo.Arbitration;
 import cn.edu.xmu.oomall.aftersale.mapper.ArbitrationPoMapper;
 import cn.edu.xmu.oomall.aftersale.mapper.po.ArbitrationPo;
 import cn.edu.xmu.javaee.core.util.CloneFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 @RefreshScope
@@ -70,4 +58,8 @@ public class ArbitrationDao {
     }
 
 
+    public void save(Arbitration arbitration) {
+        ArbitrationPo po = CloneFactory.copy(new ArbitrationPo(), arbitration);
+        arbitrationPoMapper.save(po);
+    }
 }

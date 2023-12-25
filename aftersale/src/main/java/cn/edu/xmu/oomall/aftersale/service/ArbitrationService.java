@@ -2,14 +2,12 @@ package cn.edu.xmu.oomall.aftersale.service;
 
 import cn.edu.xmu.javaee.core.exception.BusinessException;
 import cn.edu.xmu.javaee.core.model.ReturnNo;
-import cn.edu.xmu.javaee.core.model.dto.StatusDto;
+import cn.edu.xmu.javaee.core.model.ReturnObject;
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
-import cn.edu.xmu.javaee.core.mapper.RedisUtil;
-import cn.edu.xmu.oomall.aftersale.controller.dto.ArbitrationDto;
 import cn.edu.xmu.oomall.aftersale.dao.ArbitrationDao;
 import cn.edu.xmu.oomall.aftersale.dao.AftersaleDao;
 import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
-import cn.edu.xmu.oomall.aftersale.dao.bo.arbitration.Arbitration;
+import cn.edu.xmu.oomall.aftersale.dao.bo.Arbitration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +38,13 @@ public class ArbitrationService {
         return this.arbitrationDao.findById(id);
     }
 
-    public ArbitrationDto applyAftersaleArbitration(Long aid, String reason, UserDto user) {
+    public ReturnObject applyAftersaleArbitration(Long aid, String reason, UserDto user) {
         Aftersale aftersale = this.aftersaleDao.findById(aid);
         if (aftersale == null) {
             throw new BusinessException(ReturnNo.RESOURCE_ID_NOTEXIST);
         }
-        ArbitrationDto arbitrationDto = aftersale.createArbitration(reason, user);
-        return arbitrationDto;
+        ReturnObject ret = aftersale.createArbitration(reason, user);
+        return ret;
 
     }
 
@@ -55,14 +53,8 @@ public class ArbitrationService {
         if (arb == null) {
             return ReturnNo.RESOURCE_ID_NOTEXIST;
         }
-        if (arb.getCustomer_id() != user.getId()) {
-            return ReturnNo.ARBITRATION_NOT_APPLICANT;
-        }
-        if (arb.getStatus() == Arbitration.SUCCESS || arb.getStatus() == Arbitration.CANCEL) {
-            return ReturnNo.ARBITRATION_STATE_NOTALLOW;
-        }
-        changeStatus(arb, Arbitration.CANCEL);
-        return ReturnNo.OK;
+        ReturnNo ret = arb.cancel();
+        return ret;
     }
 
     public void changeStatus(Arbitration arb, Integer status) {

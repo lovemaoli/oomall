@@ -1,12 +1,8 @@
 package cn.edu.xmu.oomall.aftersale.controller.dto;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
-import cn.edu.xmu.javaee.core.model.dto.IdNameTypeDto;
-import cn.edu.xmu.javaee.core.validation.NewGroup;
-import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
-import cn.edu.xmu.oomall.aftersale.dao.bo.arbitration.Arbitration;
+import cn.edu.xmu.oomall.aftersale.dao.bo.Arbitration;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.NotBlank;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 

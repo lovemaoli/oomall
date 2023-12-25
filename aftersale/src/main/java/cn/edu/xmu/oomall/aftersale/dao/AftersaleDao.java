@@ -81,4 +81,9 @@ public class AftersaleDao {
         }
         throw new BusinessException(ReturnNo.RESOURCE_ID_NOTEXIST, String.format("售后单id不存在"));
     }
+
+    public void save(Aftersale aftersale) {
+        AftersalePo po = CloneFactory.copy(new AftersalePo(), aftersale);
+        aftersalePoMapper.save(po);
+    }
 }

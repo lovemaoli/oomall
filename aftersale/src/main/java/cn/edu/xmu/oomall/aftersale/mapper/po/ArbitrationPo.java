@@ -1,16 +1,13 @@
 package cn.edu.xmu.oomall.aftersale.mapper.po;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
-import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
-import cn.edu.xmu.oomall.aftersale.dao.bo.arbitration.Arbitration;
+import cn.edu.xmu.oomall.aftersale.dao.bo.Arbitration;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity

@@ -3,13 +3,11 @@ package cn.edu.xmu.oomall.aftersale.dao.bo;
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
 import cn.edu.xmu.javaee.core.exception.BusinessException;
 import cn.edu.xmu.javaee.core.model.ReturnNo;
-import cn.edu.xmu.javaee.core.model.bo.OOMallObject;
+import cn.edu.xmu.javaee.core.model.ReturnObject;
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
-import cn.edu.xmu.oomall.aftersale.controller.dto.ArbitrationDto;
 import cn.edu.xmu.oomall.aftersale.controller.vo.AftersaleVo;
 import cn.edu.xmu.oomall.aftersale.dao.AftersaleDao;
 import cn.edu.xmu.oomall.aftersale.dao.ArbitrationDao;
-import cn.edu.xmu.oomall.aftersale.dao.bo.arbitration.Arbitration;
 import cn.edu.xmu.oomall.aftersale.mapper.po.AftersalePo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -99,14 +97,16 @@ public class Aftersale implements Serializable {
     private String contact;
     private String mobile;
     private String address;
-    private LocalDateTime gmtApply;
-    private LocalDateTime gmtEnd;
+    private LocalDateTime gmt_apply;
+    private LocalDateTime gmt_end;
     private Long order_item_id;
     private Long product_item_id;
+    private Long product_id;
     private Long shop_id;
     private Long arbitration_id;
     private Long customer_id;
-    private Long refund_trans_id;
+    private Integer in_arbitration;
+
 
     @Setter
     @JsonIgnore
@@ -119,7 +119,7 @@ public class Aftersale implements Serializable {
     private ArbitrationDao arbitrationDao;
 
     public boolean allowApplyArbitration(UserDto user) {
-        return this.status == Aftersale.PENDING && this.customer_id == user.getId();
+        return this.status == Aftersale.FINISH && this.customer_id == user.getId();
     }
 
     /**
@@ -128,21 +128,15 @@ public class Aftersale implements Serializable {
      * @param user
      * @return
      */
-    public ArbitrationDto createArbitration(String reason, UserDto user) {
+    public ReturnObject createArbitration(String reason, UserDto user) {
         if (!allowApplyArbitration(user)) {
             logger.error(String.format("售后单%d不允许申请仲裁", this.id));
-            throw new BusinessException(ReturnNo.ARBITRATION_STATE_NOTALLOW);
+            return new ReturnObject(ReturnNo.ARBITRATION_STATE_NOTALLOW);
         }
         Arbitration arbitration = new Arbitration();
-        arbitration.setId(this.id+100000000);
-        arbitration.setAftersale_id(this.id);
-        arbitration.setCustomer_id(this.customer_id);
-        arbitration.setShop_id(this.shop_id);
-        arbitration.setReason(reason);
-        arbitration.setStatus(Arbitration.NEW);
-        arbitration.setGmt_apply(LocalDateTime.now());
+        arbitration.create(this, reason);
         arbitrationDao.insert(arbitration);
-        return arbitration.createDto();
+        return new ReturnObject(arbitration);
     }
 
     public Integer getStatus() {
@@ -221,20 +215,20 @@ public class Aftersale implements Serializable {
         this.address = address;
     }
 
-    public LocalDateTime getGmtApply() {
-        return gmtApply;
+    public LocalDateTime getGmt_apply() {
+        return gmt_apply;
     }
 
-    public void setGmtApply(LocalDateTime gmtApply) {
-        this.gmtApply = gmtApply;
+    public void setGmt_apply(LocalDateTime gmt_apply) {
+        this.gmt_apply = gmt_apply;
     }
 
-    public LocalDateTime getGmtEnd() {
-        return gmtEnd;
+    public LocalDateTime getGmt_end() {
+        return gmt_end;
     }
 
-    public void setGmtEnd(LocalDateTime gmtEnd) {
-        this.gmtEnd = gmtEnd;
+    public void setGmt_end(LocalDateTime gmt_end) {
+        this.gmt_end = gmt_end;
     }
 
     public Long getOrder_item_id() {
@@ -251,6 +245,14 @@ public class Aftersale implements Serializable {
 
     public void setProduct_item_id(Long product_item_id) {
         this.product_item_id = product_item_id;
+    }
+
+    public Long getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(Long product_id) {
+        this.product_id = product_id;
     }
 
     public Long getShop_id() {
@@ -277,12 +279,19 @@ public class Aftersale implements Serializable {
         this.customer_id = customer_id;
     }
 
-    public Long getRefund_trans_id() {
-        return refund_trans_id;
+    public Integer getIn_arbitration() {
+        return in_arbitration;
     }
 
-    public void setRefund_trans_id(Long refund_trans_id) {
-        this.refund_trans_id = refund_trans_id;
+    public void setIn_arbitration(Integer in_arbitration) {
+        this.in_arbitration = in_arbitration;
     }
+
+    public void save() {
+        this.aftersaleDao.save(this);
+    }
+
+
+
 
 }

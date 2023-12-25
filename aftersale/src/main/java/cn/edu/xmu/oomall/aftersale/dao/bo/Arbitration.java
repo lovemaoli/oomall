@@ -1,8 +1,11 @@
-package cn.edu.xmu.oomall.aftersale.dao.bo.arbitration;
+package cn.edu.xmu.oomall.aftersale.dao.bo;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
+import cn.edu.xmu.javaee.core.model.ReturnNo;
+import cn.edu.xmu.javaee.core.util.CloneFactory;
 import cn.edu.xmu.oomall.aftersale.controller.dto.ArbitrationDto;
 import cn.edu.xmu.oomall.aftersale.controller.vo.ArbitrationVo;
+import cn.edu.xmu.oomall.aftersale.dao.AftersaleDao;
 import cn.edu.xmu.oomall.aftersale.dao.ArbitrationDao;
 import cn.edu.xmu.oomall.aftersale.mapper.po.ArbitrationPo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -79,22 +82,19 @@ public class Arbitration implements Serializable {
     private Long aftersale_id;
     private Long customer_id;
     private ArbitrationDao arbitrationDao;
+    private AftersaleDao aftersaleDao;
 
+    public Arbitration create(Aftersale aftersale, String reason) {
+        this.setAftersale_id(aftersale.getId());
+        this.setCustomer_id(aftersale.getCustomer_id());
+        this.setShop_id(aftersale.getShop_id());
+        this.setReason(reason);
+        this.setStatus(Arbitration.NEW);
+        this.setGmt_apply(LocalDateTime.now());
+        return this;
+    }
     public ArbitrationDto createDto() {
-        ArbitrationDto dto = new ArbitrationDto();
-        dto.setId(this.id);
-        dto.setStatus(this.status);
-        dto.setReason(this.reason);
-        dto.setShop_reason(this.shop_reason);
-        dto.setResult(this.result);
-        dto.setArbitrator(this.arbitrator);
-        dto.setGmt_arbitration(this.gmt_arbitration);
-        dto.setGmt_accept(this.gmt_accept);
-        dto.setGmt_apply(this.gmt_apply);
-        dto.setGmt_reply(this.gmt_reply);
-        dto.setShop_id(this.shop_id);
-        dto.setAftersale_id(this.aftersale_id);
-        dto.setCustomer_id(this.customer_id);
+        ArbitrationDto dto = CloneFactory.copy(new ArbitrationDto(), this);
         return dto;
     }
     public Long getId() {
@@ -200,6 +200,7 @@ public class Arbitration implements Serializable {
         return customer_id;
     }
 
+
     public void setCustomer_id(Long customer_id) {
         this.customer_id = customer_id;
     }
@@ -210,5 +211,17 @@ public class Arbitration implements Serializable {
 
     public void setArbitrationDao(ArbitrationDao arbitrationDao) {
         this.arbitrationDao = arbitrationDao;
+    }
+
+    public ReturnNo cancel() {
+        if(this.status == Arbitration.SUCCESS){
+            return ReturnNo.STATENOTALLOW;
+        }
+        this.status = Arbitration.CANCEL;
+        arbitrationDao.save(this);
+        Aftersale aftersale = aftersaleDao.findById(this.aftersale_id);
+        aftersale.setIn_arbitration(0);
+        aftersale.save();
+        return ReturnNo.OK;
     }
 }

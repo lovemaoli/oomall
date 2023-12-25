@@ -6,9 +6,7 @@ import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.model.ReturnObject;
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.oomall.aftersale.controller.vo.ArbitrationRequestVo;
-import cn.edu.xmu.oomall.aftersale.dao.bo.arbitration.Arbitration;
 import cn.edu.xmu.oomall.aftersale.service.ArbitrationService;
-import cn.edu.xmu.oomall.aftersale.controller.dto.ArbitrationDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +31,8 @@ public class ArbitrationController {
     @PostMapping("/aftersales/{aid}/arbitrations")
     @Audit
     public ReturnObject createArbitration(@PathVariable Long aid, @RequestBody ArbitrationRequestVo requestVo, @LoginUser UserDto user) {
-        ArbitrationDto dto = arbitrationService.applyAftersaleArbitration(aid, requestVo.getReason(), user);
-        return new ReturnObject(dto);
+        ReturnObject ret = arbitrationService.applyAftersaleArbitration(aid, requestVo.getReason(), user);
+        return ret;
     }
 
     /**
@@ -45,7 +43,6 @@ public class ArbitrationController {
     @DeleteMapping("/arbitrations/{aid}")
     @Audit
     public ReturnObject deleteArbitration(@PathVariable Long aid, @LoginUser UserDto user) {
-        Arbitration arbitration = this.arbitrationService.findById(aid);
         ReturnNo code = arbitrationService.cancelArbitration(aid, user);
         return new ReturnObject(code);
     }

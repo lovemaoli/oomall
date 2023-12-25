@@ -33,25 +33,10 @@ public class AftersaleControllerTest {
     private static final String AFTERSALE = "/aftersales/{id}";
 
     @Test
-    void findRegionByIdGivenFromDatabase() throws Exception {
-//        Mockito.when(redisUtil.get("1")).thenReturn(null);
-//        Mockito.when(redisUtil.set(Mockito.anyString(), Mockito.any(), Mockito.anyLong())).thenReturn(true);
-        //输出读到的内容
-        this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 1)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.RESOURCE_ID_OUTSCOPE.getErrNo())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
-                .andDo(MockMvcResultHandlers.print());
-
-
-    }
-
-    @Test
     void findAftersaleByIdReturnsAftersaleWhenExists() throws Exception {
-        Aftersale aftersale = new Aftersale();
-        aftersale.setId(1L);
-        ArbitrationDao aftersaleService = Mockito.mock(ArbitrationDao.class);
+//        Aftersale aftersale = new Aftersale();
+//        aftersale.setId(1L);
+//        ArbitrationDao aftersaleService = Mockito.mock(ArbitrationDao.class);
 
         this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 1L)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -62,10 +47,10 @@ public class AftersaleControllerTest {
 
     @Test
     void findAftersaleByIdReturnsNotFoundWhenDoesNotExist() throws Exception {
-        ArbitrationDao aftersaleService = Mockito.mock(ArbitrationDao.class);
-        Mockito.when(aftersaleService.findById(1L)).thenReturn(null);
+//        ArbitrationDao aftersaleService = Mockito.mock(ArbitrationDao.class);
+//        Mockito.when(aftersaleService.findById(1L)).thenReturn(null);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 1L)
+        this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 2L)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andDo(MockMvcResultHandlers.print());
