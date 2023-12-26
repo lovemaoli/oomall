@@ -1,7 +1,5 @@
 package cn.edu.xmu.oomall.service.bo;
 
-import cn.edu.xmu.javaee.core.model.ReturnNo;
-import cn.edu.xmu.javaee.core.model.dto.UserDto;
 //import cn.edu.xmu.oomall.service.dao.ServiceDao;
 import cn.edu.xmu.oomall.service.dao.DraftServiceDao;
 //import cn.edu.xmu.oomall.service.dao.bo.Service;
@@ -12,8 +10,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 public class DraftServiceTest {
 
     @Mock
