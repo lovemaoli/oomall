@@ -22,7 +22,6 @@ public class AftersalePo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long aftersale_sn;
     private Integer type;
     private String reason;
     private String conclusion;
@@ -46,9 +45,6 @@ public class AftersalePo implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getAftersale_sn() { return aftersale_sn; }
-
-    public void setAftersale_sn(Long aftersale_sn) { this.aftersale_sn = aftersale_sn; }
 
     public int getType() {
         return type;

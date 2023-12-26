@@ -20,7 +20,6 @@ public class ArbitrationPo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long arbitration_sn;
     private Integer status;
     private String reason;
     private String shop_reason;
@@ -41,10 +40,6 @@ public class ArbitrationPo {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Long getArbitration_sn() { return arbitration_sn; }
-
-    public void setArbitration_sn(Long arbitration_sn) { this.arbitration_sn = arbitration_sn; }
 
     public Integer getStatus() {
         return status;

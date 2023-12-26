@@ -86,7 +86,6 @@ public class Aftersale implements Serializable {
     }
 
     private Long id;
-    private Long aftersale_sn;
     private Integer type; // 0退货 1换货 2维修
     private String reason;
     private String conclusion;
@@ -177,10 +176,6 @@ public class Aftersale implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Long getAftersale_sn() { return aftersale_sn; }
-
-    public void setAftersale_sn(Long aftersale_sn) { this.aftersale_sn = aftersale_sn; }
 
     public int getType() {
         return type;
@@ -332,7 +327,6 @@ public class Aftersale implements Serializable {
 
 
     public void create(OrderItem orderItem, Aftersale bo, Long user) {
-        this.aftersale_sn=;
         this.type = bo.getType();
         this.status = Aftersale.NEW;
         this.reason = bo.getReason();
