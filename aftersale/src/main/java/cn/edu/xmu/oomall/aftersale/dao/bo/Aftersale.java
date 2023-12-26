@@ -86,22 +86,21 @@ public class Aftersale implements Serializable {
     }
 
     private Long id;
+    private Long aftersale_sn;
     private Integer type; // 0退货 1换货 2维修
-    private Integer status;
     private String reason;
     private String conclusion;
     private Integer quantity;
     private String contact;
     private String mobile;
     private String address;
+    private Integer status;
     private LocalDateTime gmt_apply;
     private LocalDateTime gmt_end;
-    private Long order_id;
     private Long order_item_id;
-    private Long product_item_id;
     private Long product_id;
+    private Long product_item_id;
     private Long shop_id;
-    private Long arbitration_id;
     private Long customer_id;
     private Integer in_arbitration;
 
@@ -179,6 +178,10 @@ public class Aftersale implements Serializable {
         this.id = id;
     }
 
+    public Long getAftersale_sn() { return aftersale_sn; }
+
+    public void setAftersale_sn(Long aftersale_sn) { this.aftersale_sn = aftersale_sn; }
+
     public int getType() {
         return type;
     }
@@ -250,12 +253,6 @@ public class Aftersale implements Serializable {
     public void setGmt_end(LocalDateTime gmt_end) {
         this.gmt_end = gmt_end;
     }
-    public Long getOrder_id() {
-        return order_id;
-    }
-    public void setOrder_id(Long order_id) {
-        this.order_id = order_id;
-    }
 
     public Long getOrder_item_id() {
         return order_item_id;
@@ -287,14 +284,6 @@ public class Aftersale implements Serializable {
 
     public void setShop_id(Long shop_id) {
         this.shop_id = shop_id;
-    }
-
-    public Long getArbitration_id() {
-        return arbitration_id;
-    }
-
-    public void setArbitration_id(Long arbitration_id) {
-        this.arbitration_id = arbitration_id;
     }
 
     public Long getCustomer_id() {
@@ -343,6 +332,7 @@ public class Aftersale implements Serializable {
 
 
     public void create(OrderItem orderItem, Aftersale bo, Long user) {
+        this.aftersale_sn=;
         this.type = bo.getType();
         this.status = Aftersale.NEW;
         this.reason = bo.getReason();
@@ -351,7 +341,6 @@ public class Aftersale implements Serializable {
         this.mobile = bo.getMobile();
         this.address = bo.getAddress();
         this.gmt_apply = LocalDateTime.now();
-        this.order_id = orderItem.getOrderId();
         this.order_item_id = orderItem.getId();
         this.product_item_id = orderItem.getId();
         this.product_id = orderItem.getId(); // TODO

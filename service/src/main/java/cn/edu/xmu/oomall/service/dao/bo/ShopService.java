@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -73,31 +74,23 @@ public class ShopService implements Serializable{
             {new Pair<>(PLATSUSPENDSUSPEND, ServiceProviderStatus.BANNED), PLATCANCEL}
     }).collect(Collectors.toMap(data -> (Pair<Integer, ServiceProviderStatus>) data[0], data -> (Integer) data[1]));
     public boolean canTransfer(Integer status) {
-        return statusTransferMap.get(this.status).contains(status);
+        return statusTransferMap.get(this.shop_status).contains(status);
     }
 
     @JsonIgnore
     public String getStatusName() {
-        return statusMap.get(this.status);
+        return statusMap.get(this.shop_status);
     }
 
     private Long id;
-    private Integer type;
-    private String address;
-    private String consignee;
-    private String mobile;
-    private Long service_sn;
-    private String description;
-    private String service_provider_name;
-    private String service_provider_mobile;
-    private Integer status;
+    private String name;
     private Long shop_id;
-    private Long customer_id;
-    private Long service_provider_id;
     private Long service_id;
-    private Long order_item_id;
+    private LocalDateTime create_time;
+    private Integer shop_status;
     private Long product_id;
-    private Long product_item_id;
+    private Long service_provider_id;
+
 
     @JsonIgnore
     @ToString.Exclude
@@ -111,69 +104,9 @@ public class ShopService implements Serializable{
         this.id = id;
     }
 
-    public Integer getType() {
-        return type;
-    }
+    public String getName() { return name; }
 
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getConsignee() {
-        return consignee;
-    }
-
-    public void setConsignee(String consignee) {
-        this.consignee = consignee;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public Long getService_sn() {
-        return service_sn;
-    }
-
-    public void setService_sn(Long service_sn) {
-        this.service_sn = service_sn;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getService_provider_name() {
-        return service_provider_name;
-    }
-
-    public void setService_provider_name(String service_provider_name) {
-        this.service_provider_name = service_provider_name;
-    }
-
-    public String getService_provider_mobile() {
-        return service_provider_mobile;
-    }
-
-    public void setService_provider_mobile(String service_provider_mobile) {
-        this.service_provider_mobile = service_provider_mobile;
-    }
+    public void setName(String name) { this.name = name; }
 
     public Long getShop_id() {
         return shop_id;
@@ -183,13 +116,9 @@ public class ShopService implements Serializable{
         this.shop_id = shop_id;
     }
 
-    public Long getCustomer_id() {
-        return customer_id;
-    }
+    public LocalDateTime getCreate_time() { return create_time;}
 
-    public void setCustomer_id(Long customer_id) {
-        this.customer_id = customer_id;
-    }
+    public void setCreate_time(LocalDateTime create_time) { this.create_time = create_time; }
 
     public Long getService_provider_id() {
         return service_provider_id;
@@ -207,14 +136,6 @@ public class ShopService implements Serializable{
         this.service_id = service_id;
     }
 
-    public Long getOrder_item_id() {
-        return order_item_id;
-    }
-
-    public void setOrder_item_id(Long order_item_id) {
-        this.order_item_id = order_item_id;
-    }
-
     public Long getProduct_id() {
         return product_id;
     }
@@ -223,40 +144,32 @@ public class ShopService implements Serializable{
         this.product_id = product_id;
     }
 
-    public Long getProduct_item_id() {
-        return product_item_id;
+    public Integer getShop_status() {
+        return shop_status;
     }
 
-    public void setProduct_item_id(Long product_item_id) {
-        this.product_item_id = product_item_id;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        if(canTransfer(status)){
-            this.status = status;
+    public void setShop_status(Integer shop_status) {
+        if(canTransfer(shop_status)){
+            this.shop_status = shop_status;
         } else {
           throw new BusinessException(ReturnNo.SHOP_SERVICE_STATE_NOTALLOW);
         }
     }
 
     public void setStatus(ServiceProviderStatus status) {
-        Pair<Integer, ServiceProviderStatus> pair = new Pair<>(this.status, status);
+        Pair<Integer, ServiceProviderStatus> pair = new Pair<>(this.shop_status, status);
         if (providerStatusTransferMap.containsKey(pair)) {
-            this.status = providerStatusTransferMap.get(pair);
+            this.shop_status = providerStatusTransferMap.get(pair);
             shopServiceDao.save(this);
-            logger.debug("ShopService: " + this.id + " status changed to " + this.status);
+            logger.debug("ShopService: " + this.id + " status changed to " + this.shop_status);
         }else{
             logger.debug("ShopService: " + this.id + " status not changed");
         }
     }
 
-    public ReturnNo changeStatus(Integer status) {
-        if (canTransfer(status)) {
-            this.status = status;
+    public ReturnNo changeStatus(Integer shop_status) {
+        if (canTransfer(shop_status)) {
+            this.shop_status = shop_status;
             // loop...
             return ReturnNo.OK;
         } else {

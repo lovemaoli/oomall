@@ -1,8 +1,10 @@
 package cn.edu.xmu.oomall.service.mapper.po;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
+import cn.edu.xmu.oomall.service.dao.ShopServiceDao;
 import cn.edu.xmu.oomall.service.dao.bo.Service;
 import cn.edu.xmu.oomall.service.dao.bo.ShopService;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,22 +27,14 @@ public class ShopServicePo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer type;
-    private String address;
-    private String consignee;
-    private String mobile;
-    private Long service_sn;
-    private String description;
-    private String service_provider_name;
-    private String service_provider_mobile;
-    private Integer status;
+    private String name;
     private Long shop_id;
-    private Long customer_id;
-    private Long service_provider_id;
     private Long service_id;
-    private Long order_item_id;
+    private LocalDateTime create_time;
+    private Integer shop_status;
     private Long product_id;
-    private Long product_item_id;
+    private Long service_provider_id;
+
 
     public Long getId() {
         return id;
@@ -50,69 +44,9 @@ public class ShopServicePo {
         this.id = id;
     }
 
-    public Integer getType() {
-        return type;
-    }
+    public String getName() { return name; }
 
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getConsignee() {
-        return consignee;
-    }
-
-    public void setConsignee(String consignee) {
-        this.consignee = consignee;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public Long getService_sn() {
-        return service_sn;
-    }
-
-    public void setService_sn(Long service_sn) {
-        this.service_sn = service_sn;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getService_provider_name() {
-        return service_provider_name;
-    }
-
-    public void setService_provider_name(String service_provider_name) {
-        this.service_provider_name = service_provider_name;
-    }
-
-    public String getService_provider_mobile() {
-        return service_provider_mobile;
-    }
-
-    public void setService_provider_mobile(String service_provider_mobile) {
-        this.service_provider_mobile = service_provider_mobile;
-    }
+    public void setName(String name) { this.name = name; }
 
     public Long getShop_id() {
         return shop_id;
@@ -122,13 +56,9 @@ public class ShopServicePo {
         this.shop_id = shop_id;
     }
 
-    public Long getCustomer_id() {
-        return customer_id;
-    }
+    public LocalDateTime getCreate_time() { return create_time;}
 
-    public void setCustomer_id(Long customer_id) {
-        this.customer_id = customer_id;
-    }
+    public void setCreate_time(LocalDateTime create_time) { this.create_time = create_time; }
 
     public Long getService_provider_id() {
         return service_provider_id;
@@ -146,14 +76,6 @@ public class ShopServicePo {
         this.service_id = service_id;
     }
 
-    public Long getOrder_item_id() {
-        return order_item_id;
-    }
-
-    public void setOrder_item_id(Long order_item_id) {
-        this.order_item_id = order_item_id;
-    }
-
     public Long getProduct_id() {
         return product_id;
     }
@@ -162,20 +84,9 @@ public class ShopServicePo {
         this.product_id = product_id;
     }
 
-    public Long getProduct_item_id() {
-        return product_item_id;
+    public Integer getShop_status() {
+        return shop_status;
     }
 
-    public void setProduct_item_id(Long product_item_id) {
-        this.product_item_id = product_item_id;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status){
-        this.status=status;
-    }
-
+    public void setShop_status(Integer shop_status) { this.shop_status = shop_status; }
 }
