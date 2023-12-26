@@ -93,10 +93,6 @@ public class Arbitration implements Serializable {
         this.setGmt_apply(LocalDateTime.now());
         return this;
     }
-    public ArbitrationDto createDto() {
-        ArbitrationDto dto = CloneFactory.copy(new ArbitrationDto(), this);
-        return dto;
-    }
     public Long getId() {
         return id;
     }
@@ -110,6 +106,10 @@ public class Arbitration implements Serializable {
     }
 
     public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public void changeStatus(Integer status) {
         if (canTransferTo(status))
             this.status = status;
         else

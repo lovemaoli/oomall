@@ -43,8 +43,8 @@ public class AftersaleController {
         if (aftersale == null) {
             return new ReturnObject(ReturnNo.RESOURCE_ID_NOTEXIST);
         }
-        AftersaleDto dto = CloneFactory.copy(new AftersaleDto(), aftersale);
-        return new ReturnObject(dto);
+//        AftersaleDto dto = CloneFactory.copy(new AftersaleDto(), aftersale);
+        return new ReturnObject(aftersale);
     }
 
     /**
@@ -59,8 +59,8 @@ public class AftersaleController {
         if (aftersale == null) {
             return new ReturnObject(ReturnNo.RESOURCE_ID_NOTEXIST);
         }
-        AftersaleDto dto = CloneFactory.copy(new AftersaleDto(), aftersale);
-        return new ReturnObject(dto);
+//        AftersaleDto dto = CloneFactory.copy(new AftersaleDto(), aftersale);
+        return new ReturnObject(aftersale);
     }
 
     /**

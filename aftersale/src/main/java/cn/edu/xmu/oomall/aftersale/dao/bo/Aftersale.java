@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @ToString(callSuper = true, doNotUseGetters = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@CopyFrom({AftersalePo.class, ApplyAftersaleVo.class, AftersaleDto.class})
+@CopyFrom({AftersalePo.class, ApplyAftersaleVo.class})
 public class Aftersale implements Serializable {
     @ToString.Exclude
     @JsonIgnore
@@ -162,8 +162,11 @@ public class Aftersale implements Serializable {
     public Integer getStatus() {
         return status;
     }
-
     public void setStatus(Integer status) {
+            this.status = status;
+    }
+
+    public void changeStatus(Integer status) {
         if (canTransfer(status))
             this.status = status;
         else

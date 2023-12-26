@@ -23,12 +23,11 @@ public class AftersaleDao {
 
     private final static String KEY = "A%d";
     private final AftersalePoMapper aftersalePoMapper;
-    private final RedisUtil redisUtil;
 
-    public AftersaleDao(AftersalePoMapper aftersalePoMapper, RedisUtil redisUtil) {
+    public AftersaleDao(AftersalePoMapper aftersalePoMapper) {
         this.aftersalePoMapper = aftersalePoMapper;
-        this.redisUtil = redisUtil;
     }
+
 
     public Aftersale build(AftersalePo po){
         Aftersale bo = CloneFactory.copy(new Aftersale(), po);

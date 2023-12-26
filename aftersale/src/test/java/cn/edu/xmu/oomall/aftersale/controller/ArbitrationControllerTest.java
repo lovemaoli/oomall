@@ -50,11 +50,11 @@ public class ArbitrationControllerTest {
 //        this.mockMvc.perform(MockMvcRequestBuilders.post(CREATE_AFTERSALE, 1L)
 //                        .header("authorization", customerToken)
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                        .content(body))
-//                .andExpect(MockMvcResultMatchers.status().isCreated())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.CREATED.getErrNo())))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.customer_id", is(1L)))
-//                .andDo(MockMvcResultHandlers.print());
+//                        .content(body));
+////                .andExpect(MockMvcResultMatchers.status().isCreated())
+////                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.CREATED.getErrNo())))
+////                .andExpect(MockMvcResultMatchers.jsonPath("$.data.customer_id", is(1L)))
+////                .andDo(MockMvcResultHandlers.print());
 //    }
 //    @Test
 //    //用户无权限
@@ -64,10 +64,10 @@ public class ArbitrationControllerTest {
 //        this.mockMvc.perform(MockMvcRequestBuilders.post(CREATE_AFTERSALE, 1L)
 //                        .header("authorization", visitorToken)
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                        .content(body))
-//                .andExpect(MockMvcResultMatchers.status().isCreated())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
-//                .andDo(MockMvcResultHandlers.print());
+//                        .content(body));
+////                .andExpect(MockMvcResultMatchers.status().isCreated())
+////                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
+////                .andDo(MockMvcResultHandlers.print());
 //    }
 //    @Test
 //    //顾客取消仲裁成功
@@ -75,10 +75,10 @@ public class ArbitrationControllerTest {
 //
 //        this.mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_AFTERSALE, 1L)
 //                        .header("authorization", customerToken)
-//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
-//                .andDo(MockMvcResultHandlers.print());
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE));
+////                .andExpect(MockMvcResultMatchers.status().isOk())
+////                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
+////                .andDo(MockMvcResultHandlers.print());
 //    }
 
 }
