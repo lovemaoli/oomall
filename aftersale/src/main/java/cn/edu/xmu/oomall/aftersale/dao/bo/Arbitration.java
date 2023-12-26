@@ -200,7 +200,6 @@ public class Arbitration implements Serializable {
         return customer_id;
     }
 
-
     public void setCustomer_id(Long customer_id) {
         this.customer_id = customer_id;
     }

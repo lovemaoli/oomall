@@ -32,13 +32,12 @@ public class AftersalePo implements Serializable {
     private Integer status;
     private LocalDateTime gmt_apply;
     private LocalDateTime gmt_end;
-    private Long order_id;
     private Long order_item_id;
+    private Long product_id;
     private Long product_item_id;
     private Long shop_id;
-    private Long arbitration_id;
     private Long customer_id;
-    private Long refund_trans_id;
+    private Integer in_arbitration;
     public Long getId() {
         return id;
     }
@@ -126,12 +125,6 @@ public class AftersalePo implements Serializable {
     public void setGmtEnd(LocalDateTime gmtEnd) {
         this.gmt_end = gmtEnd;
     }
-    public Long getOrder_id() {
-        return order_id;
-    }
-    public void setOrder_id(Long order_id) {
-        this.order_id = order_id;
-    }
 
     public Long getOrder_item_id() {
         return order_item_id;
@@ -156,13 +149,12 @@ public class AftersalePo implements Serializable {
     public void setShop_id(Long shop_id) {
         this.shop_id = shop_id;
     }
-
-    public Long getArbitration_id() {
-        return arbitration_id;
+    public Long getProduct_id() {
+        return product_id;
     }
 
-    public void setArbitration_id(Long arbitration_id) {
-        this.arbitration_id = arbitration_id;
+    public void setProduct_id(Long product_id) {
+        this.product_id = product_id;
     }
 
     public Long getCustomer_id() {
@@ -172,12 +164,11 @@ public class AftersalePo implements Serializable {
     public void setCustomer_id(Long customer_id) {
         this.customer_id = customer_id;
     }
-
-    public Long getRefund_trans_id() {
-        return refund_trans_id;
+    public Integer getIn_arbitration() {
+        return in_arbitration;
     }
 
-    public void setRefund_trans_id(Long refund_trans_id) {
-        this.refund_trans_id = refund_trans_id;
+    public void setIn_arbitration(Integer in_arbitration) {
+        this.in_arbitration = in_arbitration;
     }
 }

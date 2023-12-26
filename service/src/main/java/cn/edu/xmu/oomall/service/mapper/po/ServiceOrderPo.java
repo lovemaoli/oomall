@@ -22,6 +22,7 @@ public class ServiceOrderPo {
     private String address;
     private String consignee;
     private String mobile;
+    private Long service_sn;
     private Integer status;
     private String description;
     private String service_provider_name;
@@ -32,7 +33,7 @@ public class ServiceOrderPo {
     private Long service_id;
     private Long order_item_id;
     private Long product_id;
-    private Long prodcut_item_id;
+    private Long product_item_id;
 
 
     public Long getId() {
@@ -83,6 +84,10 @@ public class ServiceOrderPo {
     public void setMobile(String mobile) {
         this.mobile = mobile;
     }
+
+    public Long getService_sn() { return service_sn; }
+
+    public void setService_sn(Long service_sn) { this.service_sn = service_sn; }
 
     public String getDescription() {
         return description;
@@ -156,12 +161,12 @@ public class ServiceOrderPo {
         this.product_id = product_id;
     }
 
-    public Long getProdcut_item_id() {
-        return prodcut_item_id;
+    public Long getProduct_item_id() {
+        return product_item_id;
     }
 
-    public void setProdcut_item_id(Long prodcut_item_id) {
-        this.prodcut_item_id = prodcut_item_id;
+    public void setProduct_item_id(Long product_item_id) {
+        this.product_item_id = product_item_id;
     }
 
 }

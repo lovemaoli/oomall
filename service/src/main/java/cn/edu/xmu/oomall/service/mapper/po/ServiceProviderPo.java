@@ -29,6 +29,7 @@ public class ServiceProviderPo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String consignee;
     private String address;
     private String mobile;
     private Integer service_max_num;
@@ -53,6 +54,9 @@ public class ServiceProviderPo {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getConsignee() { return consignee; }
+    public void setConsignee() { this.consignee = consignee; }
 
     public String getAddress() {
         return address;

@@ -35,7 +35,7 @@ public class Service implements Serializable{
     public static final Integer VALID = 1;
     @ToString.Exclude
     @JsonIgnore
-    public static final Integer PRESALE = 1;
+    public static final Integer PRESALE = 0;
     @ToString.Exclude
     @JsonIgnore
     public static final Integer AFTERSALE = 1;
