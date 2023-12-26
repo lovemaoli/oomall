@@ -46,6 +46,16 @@ public class ShopServiceTest {
         assertEquals(1L, shopService.getId());
     }
     @Test
+    void setIdShouldSetName() {
+        shopService.setName("test");
+        assertEquals("test", shopService.getName());
+    }
+    @Test
+    void setIdShouldSetShopId() {
+        shopService.setShop_id(1L);
+        assertEquals(1L, shopService.getShop_id());
+    }
+    @Test
     void setIdShouldSetServiceId() {
         shopService.setService_id(1L);
         assertEquals(1L, shopService.getService_id());
@@ -56,4 +66,10 @@ public class ShopServiceTest {
         shopService.setProduct_id(1L);
         assertEquals(1L, shopService.getProduct_id());
     }
+    @Test
+    void setIdShouldSetServiceProviderId() {
+        shopService.setService_provider_id(1l);
+        assertEquals(1L, shopService.getService_provider_id());
+    }
+
 }
