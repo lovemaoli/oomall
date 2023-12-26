@@ -1,4 +1,4 @@
-package cn.edu.xmu.oomall.service.dto;
+package cn.edu.xmu.oomall.service.controller.dto;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
 import cn.edu.xmu.javaee.core.exception.BusinessException;

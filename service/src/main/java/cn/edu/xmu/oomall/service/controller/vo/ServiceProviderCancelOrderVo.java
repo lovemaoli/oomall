@@ -1,4 +1,4 @@
-package cn.edu.xmu.oomall.service.vo;
+package cn.edu.xmu.oomall.service.controller.vo;
 
 import cn.edu.xmu.javaee.core.validation.NewGroup;
 import com.fasterxml.jackson.annotation.JsonInclude;
