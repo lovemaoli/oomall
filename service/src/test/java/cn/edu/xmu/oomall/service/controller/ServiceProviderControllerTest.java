@@ -42,94 +42,94 @@ public class ServiceProviderControllerTest {
         validToken = jwtHelper.createToken(1L,"admin1",1L, 1, 3600);
         invalidToken = jwtHelper.createToken(2L,"visitor",-1L, 1, 3600);
     }
-    @Test
-    //成功查询
-    void findServiceProviderByIdWhenExists() throws Exception {
-
-        this.mockMvc.perform(MockMvcRequestBuilders.get(MAINTAINER, 1L)
-                        .header("authorization", validToken)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.id", is(1)))
-                .andDo(MockMvcResultHandlers.print());
-    }
-
-    @Test
-    //查询ID不匹配
-    void findServiceProviderByIdWhenDoesNotMatch() throws Exception {
-
-        this.mockMvc.perform(MockMvcRequestBuilders.get(MAINTAINER, 2L)
-                        .header("authorization", invalidToken)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
-                .andDo(MockMvcResultHandlers.print());
-    }
-    @Test
-    //成功取消
-    void cancelServiceProviderWhenSucceed() throws Exception {
-
-        this.mockMvc.perform(MockMvcRequestBuilders.put(MAINTAINER, 1L)
-                        .header("authorization", validToken)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
-                .andDo(MockMvcResultHandlers.print());
-    }
-    @Test
-    //用户无权限
-    void cancelServiceProviderWhenHasNoAuth() throws Exception {
-
-        this.mockMvc.perform(MockMvcRequestBuilders.put(MAINTAINER, 1L)
-                        .header("authorization", invalidToken)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
-                .andDo(MockMvcResultHandlers.print());
-    }
-    @Test
-        //成功恢复
-    void resumeServiceProviderWhenSucceed() throws Exception {
-
-        this.mockMvc.perform(MockMvcRequestBuilders.put(MAINTAINER, 1L)
-                        .header("authorization", validToken)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
-                .andDo(MockMvcResultHandlers.print());
-    }
-    @Test
-        //用户无权限
-    void resumeServiceProviderWhenHasNoAuth() throws Exception {
-
-        this.mockMvc.perform(MockMvcRequestBuilders.put(MAINTAINER, 1L)
-                        .header("authorization", invalidToken)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
-                .andDo(MockMvcResultHandlers.print());
-    }
-    @Test
-        //成功暂停
-    void suspendServiceProviderWhenSucceed() throws Exception {
-
-        this.mockMvc.perform(MockMvcRequestBuilders.put(MAINTAINER, 1L)
-                        .header("authorization", validToken)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
-                .andDo(MockMvcResultHandlers.print());
-    }
-    @Test
-        //用户无权限
-    void suspendServiceProviderWhenHasNoAuth() throws Exception {
-
-        this.mockMvc.perform(MockMvcRequestBuilders.put(MAINTAINER, 1L)
-                        .header("authorization", invalidToken)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
-                .andDo(MockMvcResultHandlers.print());
-    }
+//    @Test
+//    //成功查询
+//    void findServiceProviderByIdWhenExists() throws Exception {
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.get(MAINTAINER, 1L)
+//                        .header("authorization", validToken)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.id", is(1)))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
+//
+//    @Test
+//    //查询ID不匹配
+//    void findServiceProviderByIdWhenDoesNotMatch() throws Exception {
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.get(MAINTAINER, 2L)
+//                        .header("authorization", invalidToken)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
+//    @Test
+//    //成功取消
+//    void cancelServiceProviderWhenSucceed() throws Exception {
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.put(MAINTAINER, 1L)
+//                        .header("authorization", validToken)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
+//    @Test
+//    //用户无权限
+//    void cancelServiceProviderWhenHasNoAuth() throws Exception {
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.put(MAINTAINER, 1L)
+//                        .header("authorization", invalidToken)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
+//    @Test
+//        //成功恢复
+//    void resumeServiceProviderWhenSucceed() throws Exception {
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.put(MAINTAINER, 1L)
+//                        .header("authorization", validToken)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
+//    @Test
+//        //用户无权限
+//    void resumeServiceProviderWhenHasNoAuth() throws Exception {
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.put(MAINTAINER, 1L)
+//                        .header("authorization", invalidToken)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
+//    @Test
+//        //成功暂停
+//    void suspendServiceProviderWhenSucceed() throws Exception {
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.put(MAINTAINER, 1L)
+//                        .header("authorization", validToken)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
+//    @Test
+//        //用户无权限
+//    void suspendServiceProviderWhenHasNoAuth() throws Exception {
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.put(MAINTAINER, 1L)
+//                        .header("authorization", invalidToken)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
 
 }

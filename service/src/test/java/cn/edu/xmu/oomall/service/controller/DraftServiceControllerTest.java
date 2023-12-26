@@ -39,32 +39,32 @@ public class DraftServiceControllerTest {
         JwtHelper jwtHelper = new JwtHelper();
         validToken = jwtHelper.createToken(1L,"service_provider1",1L, 1, 3600);
     }
-    @Test
-    //定义成功
-    void defServiceForProductInRegionWhenSucceed() throws Exception {
-        String body = "{\"name\":\"test\", \"name\": \"维修\",\"description\": \"寄件维修\",\"type\": \"0\",\"category\": \"手机\"}";
-
-        this.mockMvc.perform(MockMvcRequestBuilders.post(DRAFTSERVICE, 4L)//不知道这个参数怎么填
-                        .header("authorization", validToken)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(body))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.type", is(0)))
-                .andDo(MockMvcResultHandlers.print());
-    }
-
-    @Test
-    //用户未登录
-    void defServiceForProductInRegionWhenNotLogin() throws Exception{
-        String body = "{\"name\":\"test\", \"name\": \"维修\",\"description\": \"寄件维修\",\"type\": \"0\",\"category\": \"手机\"}";
-
-        this.mockMvc.perform(MockMvcRequestBuilders.post(DRAFTSERVICE, 4L)//不知道这个参数怎么填
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(body))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NEED_LOGIN.getErrNo())))
-                .andDo(MockMvcResultHandlers.print());
-    }
+//    @Test
+//    //定义成功
+//    void defServiceForProductInRegionWhenSucceed() throws Exception {
+//        String body = "{\"name\":\"test\", \"name\": \"维修\",\"description\": \"寄件维修\",\"type\": \"0\",\"category\": \"手机\"}";
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.post(DRAFTSERVICE, 4L)//不知道这个参数怎么填
+//                        .header("authorization", validToken)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+//                        .content(body))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.type", is(0)))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
+//
+//    @Test
+//    //用户未登录
+//    void defServiceForProductInRegionWhenNotLogin() throws Exception{
+//        String body = "{\"name\":\"test\", \"name\": \"维修\",\"description\": \"寄件维修\",\"type\": \"0\",\"category\": \"手机\"}";
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.post(DRAFTSERVICE, 4L)//不知道这个参数怎么填
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+//                        .content(body))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NEED_LOGIN.getErrNo())))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
 
 }

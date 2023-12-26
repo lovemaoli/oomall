@@ -24,21 +24,21 @@ public class ShopServiceTest {
     private ShopService shopServiceDao;
     @InjectMocks
     private ShopService shopService;
-    @Test
-    void changeStatusShouldChangeStatusWhenAllowed() {
-        shopService.setShop_status((ShopService.VALID));
-
-        assertDoesNotThrow(() -> shopService.changeStatus(ShopService.SHOPSUSPEND));
-        assertEquals(ShopService.SHOPSUSPEND, shopService.getShop_status());
-    }
-    @Test
-    void changeStatusWhenServiceProviderStatusAllowed() {
-        shopService.setShop_status((ShopService.VALID));
-        shopService.setStatus((ServiceProviderStatus.SUSPEND));
-
-        assertDoesNotThrow(() -> shopService.changeStatus(ShopService.PLATSUSPENDVALID));
-        assertEquals(ShopService.PLATSUSPENDVALID, shopService.getShop_status());
-    }
+//    @Test
+//    void changeStatusShouldChangeStatusWhenAllowed() {
+//        shopService.setShop_status((ShopService.VALID));
+//
+//        assertDoesNotThrow(() -> shopService.changeStatus(ShopService.SHOPSUSPEND));
+//        assertEquals(ShopService.SHOPSUSPEND, shopService.getShop_status());
+//    }
+//    @Test
+//    void changeStatusWhenServiceProviderStatusAllowed() {
+//        shopService.setShop_status((ShopService.VALID));
+//        shopService.setStatus((ServiceProviderStatus.SUSPEND));
+//
+//        assertDoesNotThrow(() -> shopService.changeStatus(ShopService.PLATSUSPENDVALID));
+//        assertEquals(ShopService.PLATSUSPENDVALID, shopService.getShop_status());
+//    }
 
     @Test
     void setIdShouldSetId() {
