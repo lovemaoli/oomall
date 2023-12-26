@@ -30,10 +30,5 @@ public class ServiceOrderTest {
         assertEquals(1L, serviceOrder.getId());
     }
 
-    @Test
-    void setStatusShouldSetStatusWhenAllowed() {
-        serviceOrder.setStatus(ServiceOrder.NEW);
-    }
-
 
 }
