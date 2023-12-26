@@ -2,6 +2,7 @@ package cn.edu.xmu.oomall.aftersale.dao.bo;
 
 import cn.edu.xmu.javaee.core.aop.CopyFrom;
 import cn.edu.xmu.javaee.core.model.ReturnNo;
+import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.javaee.core.util.CloneFactory;
 //import cn.edu.xmu.oomall.aftersale.controller.dto.OrderItemDto;
 //import cn.edu.xmu.oomall.aftersale.controller.vo.OrderItemVo;
@@ -94,7 +95,7 @@ public class OrderItem implements Serializable {
         this.aftersaleDao = aftersaleDao;
     }
 
-    public Aftersale createAftersale(Aftersale bo, Long user) {
+    public Aftersale createAftersale(Aftersale bo, UserDto user) {
         Aftersale latestAftersale = aftersaleDao.findById(latest_aftersale_id);
         if(latestAftersale == null ||
                 latestAftersale.getStatus() == Aftersale.CANCEL ||

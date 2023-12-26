@@ -49,7 +49,7 @@ public class AftersaleService {
     }
 
 
-    public ReturnObject applyAftersale(Long orderid, Long orderitemid, Aftersale bo, Long user) {
+    public ReturnObject applyAftersale(Long orderid, Long orderitemid, Aftersale bo, UserDto user) {
         OrderItem orderItem = orderItemDao.findById(orderid, orderitemid);
         if(orderItem == null) {
             return new ReturnObject(ReturnNo.RESOURCE_ID_NOTEXIST);
@@ -58,7 +58,7 @@ public class AftersaleService {
         return new ReturnObject(aftersale);
     }
 
-    public ReturnNo shopReceive(Long billcode, Long shopid, Boolean confirm, String conclusion, Long user) {
+    public ReturnNo shopReceive(Long billcode, Long shopid, Boolean confirm, String conclusion, UserDto user) {
         Aftersale aftersale = this.aftersaleDao.findByBillCode(billcode, shopid);
         aftersale = buildAftersale(aftersale);
         if(aftersale == null) {
@@ -82,7 +82,7 @@ public class AftersaleService {
         return aftersale;
     }
 
-    public ReturnNo auditAftersale(Long aid, Long shopid, Boolean confirm, String conclusion, Long user) {
+    public ReturnNo auditAftersale(Long aid, Long shopid, Boolean confirm, String conclusion, UserDto user) {
         Aftersale aftersale = this.aftersaleDao.findById(aid);
         if(aftersale == null) {
             return ReturnNo.RESOURCE_ID_NOTEXIST;

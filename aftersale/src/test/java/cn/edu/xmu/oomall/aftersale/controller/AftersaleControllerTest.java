@@ -2,9 +2,11 @@ package cn.edu.xmu.oomall.aftersale.controller;
 
 import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.mapper.RedisUtil;
+import cn.edu.xmu.javaee.core.util.JwtHelper;
 import cn.edu.xmu.oomall.aftersale.AftersaleApplication;
 import cn.edu.xmu.oomall.aftersale.dao.ArbitrationDao;
 import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +32,20 @@ public class AftersaleControllerTest {
     private MockMvc mockMvc;
     private static final String AFTERSALE = "/aftersales/{id}";
 
+    private static String customerToken;
+    private static String visitorToken;
+    @BeforeAll
+    public static void setup(){
+        JwtHelper jwtHelper = new JwtHelper();
+        customerToken = jwtHelper.createToken(1L,"customer1",1L, 1, 3600);
+        visitorToken = jwtHelper.createToken(2L,"visitor1",-1L,1,3600);
+    }
+
     @Test
     void findAftersaleByIdReturnsAftersaleWhenExists() throws Exception {
-//        Aftersale aftersale = new Aftersale();
-//        aftersale.setId(1L);
-//        ArbitrationDao aftersaleService = Mockito.mock(ArbitrationDao.class);
 
         this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 1L)
+                        .header("authorization", customerToken)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.id", is(1)))
@@ -45,13 +54,19 @@ public class AftersaleControllerTest {
 
     @Test
     void findAftersaleByIdReturnsNotFoundWhenDoesNotExist() throws Exception {
-//        ArbitrationDao aftersaleService = Mockito.mock(ArbitrationDao.class);
-//        Mockito.when(aftersaleService.findById(1L)).thenReturn(null);
 
         this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 2L)
+                        .header("authorization", customerToken)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    void findAftersaleByIdReturnsAftersaleNotLogin() throws Exception {
+        //401 未登录
+        this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 1L)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 
 }

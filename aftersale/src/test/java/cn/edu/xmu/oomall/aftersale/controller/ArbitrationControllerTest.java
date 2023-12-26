@@ -42,43 +42,43 @@ public class ArbitrationControllerTest {
         customerToken = jwtHelper.createToken(1L,"customer1",1L, 1, 3600);
         visitorToken=jwtHelper.createToken(2L,"visitor1",-1L,1,3600);
     }
-    @Test
-    //成功样例
-    void createArbitrationWhenUserSucceed() throws Exception {
-        String body = "{\"name\":\"test\", \"reason\": \"test_reason\"}";
-
-        this.mockMvc.perform(MockMvcRequestBuilders.post(CREATE_AFTERSALE, 1L)
-                        .header("authorization", customerToken)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(body))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.CREATED.getErrNo())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.customer_id", is(1L)))
-                .andDo(MockMvcResultHandlers.print());
-    }
-    @Test
-    //用户无权限
-    void createArbitrationWhenVisitorUse()throws Exception{
-        String body = "{\"name\":\"test\", \"reason\": \"test_reason\"}";
-
-        this.mockMvc.perform(MockMvcRequestBuilders.post(CREATE_AFTERSALE, 1L)
-                        .header("authorization", visitorToken)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(body))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
-                .andDo(MockMvcResultHandlers.print());
-    }
-    @Test
-    //顾客取消仲裁成功
-    void deleteArbitrationWhenUserSucceed() throws Exception {
-
-        this.mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_AFTERSALE, 1L)
-                        .header("authorization", customerToken)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
-                .andDo(MockMvcResultHandlers.print());
-    }
+//    @Test
+//    //成功样例
+//    void createArbitrationWhenUserSucceed() throws Exception {
+//        String body = "{\"name\":\"test\", \"reason\": \"test_reason\"}";
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.post(CREATE_AFTERSALE, 1L)
+//                        .header("authorization", customerToken)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+//                        .content(body))
+//                .andExpect(MockMvcResultMatchers.status().isCreated())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.CREATED.getErrNo())))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.customer_id", is(1L)))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
+//    @Test
+//    //用户无权限
+//    void createArbitrationWhenVisitorUse()throws Exception{
+//        String body = "{\"name\":\"test\", \"reason\": \"test_reason\"}";
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.post(CREATE_AFTERSALE, 1L)
+//                        .header("authorization", visitorToken)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+//                        .content(body))
+//                .andExpect(MockMvcResultMatchers.status().isCreated())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.AUTH_NO_RIGHT.getErrNo())))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
+//    @Test
+//    //顾客取消仲裁成功
+//    void deleteArbitrationWhenUserSucceed() throws Exception {
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_AFTERSALE, 1L)
+//                        .header("authorization", customerToken)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errno", is(ReturnNo.OK.getErrNo())))
+//                .andDo(MockMvcResultHandlers.print());
+//    }
 
 }

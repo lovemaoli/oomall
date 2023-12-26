@@ -4,6 +4,7 @@ import cn.edu.xmu.javaee.core.aop.Audit;
 import cn.edu.xmu.javaee.core.aop.LoginUser;
 import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.model.ReturnObject;
+import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.javaee.core.util.CloneFactory;
 import cn.edu.xmu.oomall.aftersale.controller.vo.ApplyAftersaleVo;
 import cn.edu.xmu.oomall.aftersale.controller.vo.ShopConfirmVo;
@@ -11,6 +12,7 @@ import cn.edu.xmu.oomall.aftersale.controller.vo.ShopReceiveVo;
 import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
 import cn.edu.xmu.oomall.aftersale.service.AftersaleService;
 import cn.edu.xmu.oomall.aftersale.controller.dto.AftersaleDto;
+import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +38,11 @@ public class AftersaleController {
      */
     @GetMapping("/shops/{shopid}/aftersales/{id}")
     @Audit(departName = "shops")
-    public ReturnObject findAftersaleByIdShop(@PathVariable Long shopid, @PathVariable Long id, @LoginUser Long user) {
+    public ReturnObject findAftersaleByIdShop(@PathVariable Long shopid, @PathVariable Long id, @LoginUser UserDto user) {
         Aftersale aftersale = this.aftersaleService.findById(id);
+        if (aftersale == null) {
+            return new ReturnObject(ReturnNo.RESOURCE_ID_NOTEXIST);
+        }
         AftersaleDto dto = CloneFactory.copy(new AftersaleDto(), aftersale);
         return new ReturnObject(dto);
     }
@@ -48,9 +53,12 @@ public class AftersaleController {
      * @return
      */
     @GetMapping("/aftersales/{id}")
-    @Audit
-    public ReturnObject findAftersaleById(@PathVariable Long id, @LoginUser Long user) {
+    @Audit(departName = "")
+    public ReturnObject findAftersaleById(@PathVariable Long id, @LoginUser UserDto user) {
         Aftersale aftersale = this.aftersaleService.findById(id);
+        if (aftersale == null) {
+            return new ReturnObject(ReturnNo.RESOURCE_ID_NOTEXIST);
+        }
         AftersaleDto dto = CloneFactory.copy(new AftersaleDto(), aftersale);
         return new ReturnObject(dto);
     }
@@ -59,8 +67,8 @@ public class AftersaleController {
      * 顾客提交售后申请
      */
     @PostMapping("/order/{oid}/orderitem/{id}/aftersales")
-    @Audit
-    public ReturnObject applyAftersale(@PathVariable Long oid, @PathVariable Long id, @RequestBody ApplyAftersaleVo vo, @LoginUser Long user) {
+    @Audit(departName = "")
+    public ReturnObject applyAftersale(@PathVariable Long oid, @PathVariable Long id, @RequestBody ApplyAftersaleVo vo, @LoginUser UserDto user) {
         Aftersale bo = CloneFactory.copy(new Aftersale(), vo);
         ReturnObject ret = aftersaleService.applyAftersale(oid, id, bo, user);
         return ret;
@@ -71,7 +79,7 @@ public class AftersaleController {
      */
     @PutMapping("/shops/{shopid}/receive")
     @Audit(departName = "shops")
-    public ReturnObject shopReceive(@PathVariable Long shopid, @RequestBody ShopReceiveVo vo, @LoginUser Long user) {
+    public ReturnObject shopReceive(@PathVariable Long shopid, @RequestBody ShopReceiveVo vo, @LoginUser UserDto user) {
         ReturnNo ret = aftersaleService.shopReceive(vo.getBillcode(), shopid, vo.getConfirm(), vo.getConclusion(), user);
         return new ReturnObject(ret);
     }
@@ -81,7 +89,7 @@ public class AftersaleController {
      */
     @PutMapping("/shops/{shopid}/aftersales/{id}/confirm")
     @Audit(departName = "shops")
-    public ReturnObject shopConfirm(@PathVariable Long shopid, @PathVariable Long aid, @RequestBody ShopConfirmVo vo, @LoginUser Long user) {
+    public ReturnObject shopConfirm(@PathVariable Long shopid, @PathVariable Long aid, @RequestBody ShopConfirmVo vo, @LoginUser UserDto user) {
         ReturnNo ret = aftersaleService.auditAftersale(aid, shopid, vo.getConfirm(), vo.getConclusion(), user);
         return new ReturnObject(ret);
     }

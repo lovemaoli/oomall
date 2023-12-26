@@ -17,12 +17,7 @@ public class ReturnAftersale extends Aftersale {
             }else{
                 this.setStatus(Aftersale.FINISH);
                 Long billcode = this.getExpressDao().createExpress(shopid); //TODO
-                AftersaleExpress aftersaleExpress = new AftersaleExpress();
-                aftersaleExpress.setAftersale_id(this.getId());
-                aftersaleExpress.setBill_code(billcode);
-                aftersaleExpress.setSender(1);
-                aftersaleExpress.setStatus(0);
-                this.getAftersaleExpressDao().insert(aftersaleExpress);
+                this.insertAftersaleExpress(billcode, 1);
             }
             this.getAftersaleDao().save(this);
             return ReturnNo.OK;
@@ -35,12 +30,7 @@ public class ReturnAftersale extends Aftersale {
     @Override
     public ReturnNo shopAudit(Long shopid){
         Long billcode = this.getExpressDao().createExpress(shopid); //TODO
-        AftersaleExpress aftersaleExpress = new AftersaleExpress();
-        aftersaleExpress.setAftersale_id(this.getId());
-        aftersaleExpress.setBill_code(billcode);
-        aftersaleExpress.setSender(0);
-        aftersaleExpress.setStatus(0);
-        this.getAftersaleExpressDao().insert(aftersaleExpress);
+        this.insertAftersaleExpress(billcode, 0);
         return ReturnNo.OK;
     }
 

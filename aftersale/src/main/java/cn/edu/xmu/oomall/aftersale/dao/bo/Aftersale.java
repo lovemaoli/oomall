@@ -5,6 +5,7 @@ import cn.edu.xmu.javaee.core.exception.BusinessException;
 import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.model.ReturnObject;
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
+import cn.edu.xmu.oomall.aftersale.controller.dto.AftersaleDto;
 import cn.edu.xmu.oomall.aftersale.controller.vo.AftersaleVo;
 import cn.edu.xmu.oomall.aftersale.controller.vo.ApplyAftersaleVo;
 import cn.edu.xmu.oomall.aftersale.dao.*;
@@ -26,7 +27,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @ToString(callSuper = true, doNotUseGetters = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@CopyFrom({AftersalePo.class, ApplyAftersaleVo.class})
+@CopyFrom({AftersalePo.class, ApplyAftersaleVo.class, AftersaleDto.class})
 public class Aftersale implements Serializable {
     @ToString.Exclude
     @JsonIgnore
@@ -333,7 +334,7 @@ public class Aftersale implements Serializable {
     }
 
 
-    public void create(OrderItem orderItem, Aftersale bo, Long user) {
+    public void create(OrderItem orderItem, Aftersale bo, UserDto user) {
         this.type = bo.getType();
         this.status = Aftersale.NEW;
         this.reason = bo.getReason();
@@ -346,7 +347,7 @@ public class Aftersale implements Serializable {
         this.product_item_id = orderItem.getId();
         this.product_id = orderItem.getId(); // TODO
         this.shop_id = orderItem.getShopId();
-        this.customer_id = user;
+        this.customer_id = user.getId();
         this.in_arbitration = 0;
     }
 
@@ -361,7 +362,7 @@ public class Aftersale implements Serializable {
     }
 
 
-    public ReturnNo audit(Long shopid, Boolean confirm, String conclusion, Long user) {
+    public ReturnNo audit(Long shopid, Boolean confirm, String conclusion, UserDto user) {
         ReturnNo ret;
         if(this.status == Aftersale.NEW) {
             return ReturnNo.AFTERSALE_STATENOTALLOW;
@@ -376,5 +377,14 @@ public class Aftersale implements Serializable {
         }
         this.save();
         return ret;
+    }
+
+    public void insertAftersaleExpress (Long billcode, Integer sender) {
+        AftersaleExpress aftersaleExpress = new AftersaleExpress();
+        aftersaleExpress.setAftersale_id(this.getId());
+        aftersaleExpress.setBill_code(billcode);
+        aftersaleExpress.setSender(sender);
+        aftersaleExpress.setStatus(0);
+        this.getAftersaleExpressDao().insert(aftersaleExpress);
     }
 }
