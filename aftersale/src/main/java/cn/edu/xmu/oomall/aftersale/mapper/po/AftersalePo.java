@@ -32,6 +32,7 @@ public class AftersalePo implements Serializable {
     private Integer status;
     private LocalDateTime gmt_apply;
     private LocalDateTime gmt_end;
+    private Long order_id;
     private Long order_item_id;
     private Long product_id;
     private Long product_item_id;
@@ -124,6 +125,14 @@ public class AftersalePo implements Serializable {
 
     public void setGmtEnd(LocalDateTime gmtEnd) {
         this.gmt_end = gmtEnd;
+    }
+
+    public Long getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(Long order_id) {
+        this.order_id = order_id;
     }
 
     public Long getOrder_item_id() {
