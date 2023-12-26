@@ -50,4 +50,10 @@ public class ShopServiceTest {
         shopService.setService_id(1L);
         assertEquals(1L, shopService.getService_id());
     }
+
+    @Test
+    void setIdShouldSetProductId() {
+        shopService.setProduct_id(1L);
+        assertEquals(1L, shopService.getProduct_id());
+    }
 }

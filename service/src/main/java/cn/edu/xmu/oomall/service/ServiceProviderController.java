@@ -1,4 +1,4 @@
-package cn.edu.xmu.oomall.service.controller;
+package cn.edu.xmu.oomall.service;
 
 import cn.edu.xmu.javaee.core.aop.Audit;
 import cn.edu.xmu.javaee.core.aop.LoginUser;
@@ -6,7 +6,7 @@ import cn.edu.xmu.javaee.core.model.ReturnNo;
 import cn.edu.xmu.javaee.core.model.ReturnObject;
 import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.javaee.core.util.CloneFactory;
-import cn.edu.xmu.oomall.service.controller.dto.ServiceProviderDto;
+import cn.edu.xmu.oomall.service.dto.ServiceProviderDto;
 import cn.edu.xmu.oomall.service.dao.bo.ServiceProvider;
 import cn.edu.xmu.oomall.service.service.ServiceProviderService;
 //import cn.edu.xmu.oomall.service.controller.dto.ServiceProviderDto
