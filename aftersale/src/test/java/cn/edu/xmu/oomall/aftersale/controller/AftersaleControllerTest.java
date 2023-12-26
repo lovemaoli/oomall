@@ -52,7 +52,7 @@ public class AftersaleControllerTest {
     @Test
     void findAftersaleByIdReturnsNotFoundWhenDoesNotExist() throws Exception {
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 2L)
+        this.mockMvc.perform(MockMvcRequestBuilders.get(AFTERSALE, 699L)
                         .header("authorization", customerToken)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
