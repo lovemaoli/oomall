@@ -12,7 +12,7 @@ public interface AftersalePoMapper extends JpaRepository<AftersalePo, Long> {
 
     @Query(value = "SELECT aa.* FROM aftersale_aftersale aa " +
             "INNER JOIN aftersale_aftersale_express aae ON aa.id = aae.aftersale_id " +
-            "WHERE aae.billcode = :billcode AND aa.shopid = :shopid", nativeQuery = true)
+            "WHERE aae.bill_code = :billcode AND aa.shop_id = :shopid", nativeQuery = true)
     Optional<AftersalePo> findPoByBillCode(Long billcode, Long shopid);
 
 }

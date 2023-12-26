@@ -60,10 +60,10 @@ public class AftersaleService {
 
     public ReturnNo shopReceive(Long billcode, Long shopid, Boolean confirm, String conclusion, UserDto user) {
         Aftersale aftersale = this.aftersaleDao.findByBillCode(billcode, shopid);
-        aftersale = buildAftersale(aftersale);
         if(aftersale == null) {
             return ReturnNo.RESOURCE_ID_NOTEXIST;
         }
+        aftersale = buildAftersale(aftersale);
         if(aftersale.getType() == Aftersale.REPAIR){
             return ReturnNo.AFTERSALE_STATENOTALLOW;
         }

@@ -7,6 +7,13 @@ import cn.edu.xmu.javaee.core.model.dto.UserDto;
 import cn.edu.xmu.oomall.aftersale.dao.AftersaleDao;
 import cn.edu.xmu.oomall.aftersale.dao.ArbitrationDao;
 import cn.edu.xmu.oomall.aftersale.dao.bo.Aftersale;
+import cn.edu.xmu.oomall.aftersale.dao.bo.AftersaleExpress;
+import cn.edu.xmu.oomall.aftersale.dao.bo.Arbitration;
+import cn.edu.xmu.oomall.aftersale.dao.bo.OrderItem;
+import cn.edu.xmu.oomall.aftersale.mapper.po.AftersaleExpressPo;
+import cn.edu.xmu.oomall.aftersale.mapper.po.AftersalePo;
+import cn.edu.xmu.oomall.aftersale.mapper.po.ArbitrationPo;
+import cn.edu.xmu.oomall.aftersale.mapper.po.OrderItemPo;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -71,5 +78,27 @@ public class AftersaleTest {
         ReturnNo result = aftersale.audit(1L, Boolean.TRUE, "conclusion", user);
 
         assertEquals(ReturnNo.AFTERSALE_STATENOTALLOW, result);
+    }
+
+    @Test
+    void createTest() {
+        Aftersale aftersale = new Aftersale();
+        OrderItem orderItem = new OrderItem();
+        UserDto userDto = new UserDto();
+        aftersale.create(orderItem,aftersale,userDto);
+        aftersale.toString();
+        orderItem.toString();
+        Arbitration arbitration = new Arbitration();
+        arbitration.toString();
+        AftersaleExpress aftersaleExpress = new AftersaleExpress();
+        aftersaleExpress.toString();
+        AftersalePo aftersalePo = new AftersalePo();
+        ArbitrationPo arbitrationPo = new ArbitrationPo();
+        AftersaleExpressPo aftersaleExpressPo = new AftersaleExpressPo();
+        OrderItemPo orderItemPo = new OrderItemPo();
+        aftersalePo.toString();
+        arbitrationPo.toString();
+        aftersaleExpressPo.toString();
+        orderItemPo.toString();
     }
 }

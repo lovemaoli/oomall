@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @ToString(callSuper = true, doNotUseGetters = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-//@CopyFrom({AftersaleExpressPo.class, AftersaleExpressVo.class})
+@CopyFrom({AftersaleExpressPo.class})
 public class AftersaleExpress implements Serializable{
     private Long id;
     private Long aftersale_id;

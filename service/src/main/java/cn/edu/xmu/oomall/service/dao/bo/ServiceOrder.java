@@ -62,8 +62,12 @@ public class ServiceOrder implements Serializable{
             {SUCCESS, List.of()},
     }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (List<Integer>) data[1]));
 
-    public boolean canTransferTo(Integer status) {
-        return statusTransferMap.get(this.status).contains(status);
+    public Boolean canTransferTo(Integer status) {
+        if(statusTransferMap.get(this.status) != null)
+            if(statusTransferMap.get(this.status).contains(status))
+                return true;
+        return false;
+
     }
 
     public String getStateName() {

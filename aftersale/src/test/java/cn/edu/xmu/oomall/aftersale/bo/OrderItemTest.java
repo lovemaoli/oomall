@@ -40,6 +40,7 @@ public class OrderItemTest {
 //        assertEquals(aftersale.getId(), orderItem.getLatest_aftersale_id());
     }
 
+
     @Test
     void createAftersaleShouldReturnNullWhenNotAllowed() {
         UserDto user = new UserDto();
@@ -53,4 +54,37 @@ public class OrderItemTest {
 //
 //        assertNull(result);
     }
+
+
+    @Test
+    void setIdShouldSetId() {
+        orderItem.setId(1L);
+        assertEquals(1L, orderItem.getId());
+    }
+
+    @Test
+    void setLatestAftersaleIdShouldSetLatestAftersaleId(){
+        orderItem.setLatest_aftersale_id(1L);
+        assertEquals(1L,orderItem.getLatest_aftersale_id());
+    }
+
+    @Test
+    void setQuantityShouldSetQuantity(){
+        orderItem.setQuantity(2);
+        assertEquals(2,orderItem.getQuantity());
+    }
+
+    @Test
+    void setOrderIdShouldSetOrderId(){
+        orderItem.setOrderId(1L);
+        assertEquals(1L,orderItem.getOrderId());
+    }
+
+    @Test
+    void setShopIdShouldSetShopId(){
+        orderItem.setShopId(1L);
+        assertEquals(1L,orderItem.getShopId());
+    }
+
+
 }
